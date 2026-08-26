@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
+import PwaInstallCta from "@/components/PwaInstallCta";
 import { trpc } from "@/lib/trpc";
 import { starterCourses } from "@/data/courseCatalog";
 import {
@@ -148,6 +149,8 @@ export default function Home() {
                 <Link href={primaryHref} className="orbit-button inline-flex items-center justify-center gap-2 rounded-lg bg-neon-cyan px-6 py-3 font-bold text-[oklch(0.1_0.02_260)] hover:opacity-90"><Rocket className="h-4.5 w-4.5" /> Começar minha jornada</Link>
                 <Link href="/catalog" className="orbit-button inline-flex items-center justify-center gap-2 rounded-lg border border-white/15 px-6 py-3 font-semibold text-foreground hover:border-neon-cyan/40 hover:text-neon-cyan">Explorar academias <ChevronRight className="h-4 w-4" /></Link>
               </div>
+
+              <PwaInstallCta />
 
               <div className="mt-9 grid max-w-lg grid-cols-3 gap-4 border-t border-white/10 pt-5">
                 <div><p className="text-2xl font-bold text-foreground">{stats?.totalDomains ?? "—"}</p><p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">domínios</p></div>
