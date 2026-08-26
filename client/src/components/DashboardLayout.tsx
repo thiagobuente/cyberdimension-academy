@@ -1,0 +1,307 @@
+import { useAuth } from "@/_core/hooks/useAuth";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import { useIsMobile } from "@/hooks/useMobile";
+import { securityPlusWeeklyPlan } from "@/data/securityPlusWeeklyPlan";
+import { trpc } from "@/lib/trpc";
+import { BarChart3, BookOpen, Compass, FlaskConical, LayoutDashboard, ListChecks, LogOut, PanelLeft, Shield, ShieldCheck, Star, Target, Trophy, Video, Headphones } from "lucide-react";
+import { CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+import { useLocation } from "wouter";
+import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
+import { Button } from "./ui/button";
+
+const menuItems = [
+  { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+  { icon: Compass, label: "Trilhas", path: "/securityplus/trilha" },
+  { icon: ShieldCheck, label: "CompTIA+", path: "/securityplus/trilha" },
+  { icon: BookOpen, label: "Academias", path: "/catalog" },
+  { icon: FlaskConical, label: "Projetos", path: "/cyber-projects" },
+  { icon: ListChecks, label: "Testes", path: "/simulados" },
+  { icon: Headphones, label: "CyberCast", path: "/podcast" },
+  { icon: Target, label: "Mapa de carreira", path: "/carreira" },
+  { icon: Trophy, label: "Certificados", path: "/profile" },
+  { icon: Star, label: "Favoritos", path: "/favorites" },
+  { icon: BarChart3, label: "Progresso", path: "/progress" },
+  { icon: Shield, label: "IA Tutor", path: "/tutor" },
+  { icon: Video, label: "Biblioteca de vídeos", path: "/videos" },
+];
+
+const SIDEBAR_WIDTH_KEY = "sidebar-width";
+const DEFAULT_WIDTH = 280;
+const MIN_WIDTH = 200;
+const MAX_WIDTH = 480;
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [sidebarWidth, setSidebarWidth] = useState(() => {
+    const saved = localStorage.getItem(SIDEBAR_WIDTH_KEY);
+    return saved ? parseInt(saved, 10) : DEFAULT_WIDTH;
+  });
+  const { loading, user } = useAuth();
+
+  useEffect(() => {
+    localStorage.setItem(SIDEBAR_WIDTH_KEY, sidebarWidth.toString());
+  }, [sidebarWidth]);
+
+  if (loading) {
+    return <DashboardLayoutSkeleton />
+  }
+
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center gap-8 p-8 max-w-md w-full">
+          <div className="flex flex-col items-center gap-6">
+            <h1 className="text-2xl font-semibold tracking-tight text-center">Acesse sua conta</h1>
+            <p className="text-sm text-muted-foreground text-center max-w-sm">
+              Informe seu e-mail para receber um link seguro de acesso à sua estação de estudo.
+            </p>
+          </div>
+          <Button
+            onClick={() => window.location.assign("/login")}
+            size="lg"
+            className="w-full shadow-lg hover:shadow-xl transition-all"
+          >
+            Entrar com e-mail
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": `${sidebarWidth}px`,
+        } as CSSProperties
+      }
+    >
+      <DashboardLayoutContent setSidebarWidth={setSidebarWidth}>
+        {children}
+      </DashboardLayoutContent>
+    </SidebarProvider>
+  );
+}
+
+type DashboardLayoutContentProps = {
+  children: React.ReactNode;
+  setSidebarWidth: (width: number) => void;
+};
+
+function DashboardLayoutContent({
+  children,
+  setSidebarWidth,
+}: DashboardLayoutContentProps) {
+  const { user, logout } = useAuth();
+  const [location, setLocation] = useLocation();
+  const { state, toggleSidebar } = useSidebar();
+  const isCollapsed = state === "collapsed";
+  const [isResizing, setIsResizing] = useState(false);
+  const [comptiaExpanded, setComptiaExpanded] = useState(true);
+  const domainsQuery = trpc.domains.list.useQuery();
+  const progressQuery = trpc.progress.list.useQuery();
+  const progressUtils = trpc.useUtils();
+  const [lessonCounts, setLessonCounts] = useState<Record<number, number>>({});
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const isSecurityPlusRoute = location === "/securityplus/trilha" || location.startsWith("/course/") || location === "/quiz" || location.startsWith("/quiz/");
+  const activeMenuItem = menuItems.find(item => item.path === location) ?? (isSecurityPlusRoute ? menuItems.find((item) => item.label === "CompTIA+") : undefined);
+  const isMobile = useIsMobile();
+  const comptiaProgress = useMemo(() => {
+    const completed = (progressQuery.data ?? []).filter((entry) => entry.completed && entry.lessonId);
+    const completedIds = new Map<number, Set<number>>();
+    completed.forEach((entry) => (completedIds.get(entry.domainId) ?? (completedIds.set(entry.domainId, new Set()), completedIds.get(entry.domainId)!)).add(entry.lessonId!));
+    const domains = domainsQuery.data ?? [];
+    const totals = domains.reduce((sum, domain) => sum + (lessonCounts[domain.id] ?? 0), 0);
+    const done = domains.reduce((sum, domain) => sum + (completedIds.get(domain.id)?.size ?? 0), 0);
+    return totals > 0 ? Math.min(100, Math.round((done / totals) * 100)) : 0;
+  }, [domainsQuery.data, lessonCounts, progressQuery.data]);
+
+  useEffect(() => {
+    if (!domainsQuery.data?.length) return;
+    void Promise.all(domainsQuery.data.map(async (domain) => {
+      try { return [domain.id, await progressUtils.progress.lessonCount.fetch({ domainId: domain.id })] as const; }
+      catch { return [domain.id, 0] as const; }
+    })).then((entries) => setLessonCounts(Object.fromEntries(entries)));
+  }, [domainsQuery.data, progressUtils.progress.lessonCount]);
+  useEffect(() => {
+    if (isCollapsed) {
+      setIsResizing(false);
+    }
+  }, [isCollapsed]);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing) return;
+
+      const sidebarLeft = sidebarRef.current?.getBoundingClientRect().left ?? 0;
+      const newWidth = e.clientX - sidebarLeft;
+      if (newWidth >= MIN_WIDTH && newWidth <= MAX_WIDTH) {
+        setSidebarWidth(newWidth);
+      }
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+    };
+
+    if (isResizing) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+      document.body.style.cursor = "col-resize";
+      document.body.style.userSelect = "none";
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    };
+  }, [isResizing, setSidebarWidth]);
+
+  return (
+    <>
+      <div className="relative" ref={sidebarRef}>
+        <Sidebar
+          collapsible="icon"
+          className="border-r-0"
+          disableTransition={isResizing}
+        >
+          <SidebarHeader className="h-16 justify-center">
+            <div className="flex items-center gap-3 px-2 transition-all w-full">
+              <button
+                onClick={toggleSidebar}
+                className="h-8 w-8 flex items-center justify-center hover:bg-accent rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring shrink-0"
+                aria-label="Toggle navigation"
+              >
+                <PanelLeft className="h-4 w-4 text-muted-foreground" />
+              </button>
+              {!isCollapsed ? (
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="truncate font-orbitron text-xs font-bold tracking-[0.08em]">
+                    CYBERDIMENSION
+                  </span>
+                </div>
+              ) : null}
+            </div>
+          </SidebarHeader>
+
+          <SidebarContent className="gap-0">
+            <SidebarMenu className="px-2 py-1">
+              {menuItems.map(item => {
+                const isComptia = item.label === "CompTIA+";
+                const isActive = isComptia ? isSecurityPlusRoute : location === item.path;
+                return (
+                  <SidebarMenuItem key={item.label}>
+                    <SidebarMenuButton
+                      isActive={isActive}
+                      onClick={() => {
+                        setLocation(item.path);
+                        if (isComptia) setComptiaExpanded((expanded) => !expanded);
+                      }}
+                      tooltip={item.label}
+                      className={`h-10 transition-all font-normal ${isComptia ? "dashboard-layout-nav-comptia text-cyan-300" : item.label === "IA Tutor" ? "dashboard-layout-nav-tutor text-emerald-300" : item.label === "CyberCast" ? "dashboard-layout-nav-audio text-fuchsia-300" : item.label === "Testes" ? "dashboard-layout-nav-assessments text-violet-300" : item.label === "Mapa de carreira" ? "dashboard-layout-nav-career text-amber-300" : ""}`}
+                      aria-expanded={isComptia ? comptiaExpanded : undefined}
+                      aria-controls={isComptia ? "dashboard-layout-comptia-submenu" : undefined}
+                    >
+                      <item.icon className={`h-4 w-4 ${isActive ? "text-primary" : ""}`} />
+                      <span className="min-w-0 flex-1">{item.label}</span>
+                      {isComptia && <span className="ml-auto rounded-full border border-cyan-300/25 px-1.5 py-0.5 text-[0.58rem] font-bold text-cyan-200">{comptiaProgress}%</span>}
+                    </SidebarMenuButton>
+                    {isComptia && comptiaExpanded && !isCollapsed && (
+                      <div id="dashboard-layout-comptia-submenu" className="dashboard-layout-comptia-submenu" aria-label="Domínios da prova Security+">
+                        <button type="button" onClick={() => setLocation("/securityplus/trilha")} className="dashboard-layout-comptia-link dashboard-layout-comptia-link-primary">Visão geral <span>→</span></button>
+                        {securityPlusWeeklyPlan.filter((week) => week.domainOrder).map((week) => (
+                          <button key={week.domainOrder} type="button" onClick={() => setLocation(`/securityplus/trilha#dominio-${week.domainOrder}`)} className="dashboard-layout-comptia-link"><span className="dashboard-layout-comptia-index">0{week.domainOrder}</span><span className="min-w-0 flex-1 truncate">{week.focus}</span></button>
+                        ))}
+                      </div>
+                    )}
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarContent>
+
+          <SidebarFooter className="p-3">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-3 rounded-lg px-1 py-1 hover:bg-accent/50 transition-colors w-full text-left group-data-[collapsible=icon]:justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                  <Avatar className="h-9 w-9 border shrink-0">
+                    <AvatarFallback className="text-xs font-medium">
+                      {user?.name?.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 min-w-0 group-data-[collapsible=icon]:hidden">
+                    <p className="text-sm font-medium truncate leading-none">
+                      {user?.name || "-"}
+                    </p>
+                    <p className="text-xs text-muted-foreground truncate mt-1.5">
+                      {user?.email || "-"}
+                    </p>
+                  </div>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem
+                  onClick={logout}
+                  className="cursor-pointer text-destructive focus:text-destructive"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Sair</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarFooter>
+        </Sidebar>
+        <div
+          className={`absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-primary/20 transition-colors ${isCollapsed ? "hidden" : ""}`}
+          onMouseDown={() => {
+            if (isCollapsed) return;
+            setIsResizing(true);
+          }}
+          style={{ zIndex: 50 }}
+        />
+      </div>
+
+      <SidebarInset>
+        {isMobile && (
+          <div className="flex border-b h-14 items-center justify-between bg-background/95 px-2 backdrop-blur supports-[backdrop-filter]:backdrop-blur sticky top-0 z-40">
+            <div className="flex items-center gap-2">
+              <SidebarTrigger className="h-9 w-9 rounded-lg bg-background" />
+              <div className="flex items-center gap-3">
+                <div className="flex flex-col gap-1">
+                  <span className="font-orbitron text-xs font-bold tracking-[0.08em] text-foreground">
+                    {activeMenuItem?.label ?? "Menu"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        <main className="flex-1 p-4">{children}</main>
+      </SidebarInset>
+    </>
+  );
+}

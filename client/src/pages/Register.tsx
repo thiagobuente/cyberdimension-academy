@@ -1,0 +1,13 @@
+import { EmailAccessForm } from "@/components/EmailAccessForm";
+import { Link } from "wouter";
+import { Shield, Sparkles, Zap } from "lucide-react";
+
+export default function Register() {
+  return (
+    <div className="min-h-screen space-canvas text-foreground">
+      <div className="pointer-events-none fixed inset-0 space-grid opacity-55" />
+      <header className="relative z-10 border-b border-white/8 bg-[oklch(0.075_0.025_260/0.75)] backdrop-blur-xl"><div className="container flex items-center justify-between py-4"><Link href="/" className="flex items-center gap-3"><span className="grid h-9 w-9 place-items-center rounded-xl border border-neon-cyan/30 bg-neon-cyan/10"><Shield className="h-4 w-4 text-neon-cyan" /></span><span><span className="block font-orbitron text-xs font-bold tracking-[0.06em]">CYBERDIMENSION</span><span className="mt-0.5 block text-[0.6rem] font-bold tracking-[0.2em] text-neon-cyan">ACADEMY</span></span></Link><Link href="/login" className="text-sm font-bold text-neon-cyan hover:text-white">Entrar</Link></div></header>
+      <main className="container relative grid min-h-[calc(100vh-4.5rem)] place-items-center py-10"><section className="module-card grid w-full max-w-4xl overflow-hidden rounded-3xl md:grid-cols-[1.05fr_0.95fr]"><div className="border-b border-white/10 bg-gradient-to-br from-neon-purple/[0.12] via-transparent to-neon-cyan/[0.10] p-7 md:border-b-0 md:border-r md:p-10"><p className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.16em] text-neon-cyan"><Sparkles className="h-3.5 w-3.5" /> CONTA DO ALUNO</p><h1 className="mt-4 font-orbitron text-3xl font-bold leading-tight md:text-4xl">Comece sua <span className="text-neon-cyan">jornada</span> agora.</h1><p className="mt-5 max-w-sm text-sm leading-7 text-muted-foreground">Use o e-mail que preferir. Sua conta será criada imediatamente e seu progresso, badges e certificados ficarão vinculados a ela.</p></div><div className="p-7 md:p-10"><span className="grid h-12 w-12 place-items-center rounded-xl border border-neon-purple/25 bg-neon-purple/10"><Zap className="h-5 w-5 text-neon-purple" /></span><h2 className="mt-5 font-orbitron text-xl font-bold">Criar e entrar</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">Digite seu e-mail uma única vez para criar sua conta e abrir a plataforma, sem senha e sem confirmação por mensagem.</p><EmailAccessForm /><p className="mt-5 text-center text-sm text-muted-foreground">Já possui conta? <Link href="/login" className="font-bold text-neon-cyan hover:text-white">Entrar</Link></p></div></section></main>
+    </div>
+  );
+}
