@@ -544,7 +544,7 @@
 - [x] Resultado do teste vocacional persistido no perfil do aluno (acesso pelo dashboard/perfil após login)
 - [x] Migrações 0025/0026 (portfolioItems, careerQuizResults, studyStreaks etc.) e backend completo (routers career, portfolioPublic, filtros admin)
 - [x] 10 testes novos (server/careerAndPublicPortfolio.test.ts), suíte com 230 aprovados, TypeScript limpo
-- [x] Validação E2E na produção: filtros admin com login (thiagobuente@hotmail.com), fluxo completo do quiz (10 respostas → resultado Blue Team & SOC +50 XP), página pública de portfólio com evidência; senha admin atualizada para o novo valor (mín. 10 chars)
+- [x] Validação E2E na produção: filtros admin com login (conta administrativa configurada no ambiente), fluxo completo do quiz (10 respostas → resultado Blue Team & SOC +50 XP), página pública de portfólio com evidência; senha admin atualizada para o novo valor (mín. 10 chars)
 - [x] Limpeza de dados de teste do banco de produção e checkpoint 569af9b7 publicado
 
 # Corrigir categorias vazias na Biblioteca de Vídeos (17/08)
@@ -1444,3 +1444,5 @@
 - [ ] Revisar scripts do `package.json` e documentar somente comandos existentes ou necessários
 - [ ] Atualizar README profissional com visão geral, setup, testes, build e migração
 - [ ] Revalidar sanitização, reprodutibilidade e conteúdo público antes do push
+- [x] Corrigir a localização única da migration 0026 em `drizzle/0026_public_portfolio_career.sql`
+- [x] Remover o e-mail pessoal exposto do TODO e substituí-lo por uma referência genérica
