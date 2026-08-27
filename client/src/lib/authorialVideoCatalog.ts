@@ -78,6 +78,66 @@ const publishedLessonDetails: Record<number, { duration: string; chapters: reado
       { time: "03:17", title: "Desafio e resumo", summary: "Implementação controlada de uma função com testes e análise de riscos." },
     ],
   },
+  6: {
+    duration: "3 min 14 s",
+    chapters: [
+      { time: "00:00", title: "Introdução", summary: "Erros comuns ao aplicar IA em cibersegurança e como substituí-los." },
+      { time: "00:28", title: "Respostas convincentes não são prova", summary: "Fluência não garante verdade; confirme fontes e evidências." },
+      { time: "00:55", title: "Limites da automação", summary: "Scanners e modelos podem perder contexto e lógica de negócio." },
+      { time: "01:23", title: "Privacidade e autorização", summary: "Anonimize dados e defina escopo antes de qualquer ação." },
+      { time: "01:51", title: "Vieses e manutenção", summary: "Trate falsos positivos, versões, referências e qualidade ao longo do tempo." },
+      { time: "02:19", title: "Ciclo de decisão responsável", summary: "Definir, limitar, proteger, testar e registrar." },
+      { time: "02:46", title: "Desafio e resumo", summary: "Revisão de uma resposta fictícia com riscos e premissas ocultas." },
+    ],
+  },
+  7: {
+    duration: "3 min 40 s",
+    chapters: [
+      { time: "00:00", title: "Introdução", summary: "Checklist para projetar aplicações de IA com segurança." },
+      { time: "00:31", title: "Objetivo e dados", summary: "Defina propósito, usuário, classes de dados e retenção." },
+      { time: "01:03", title: "Entradas não confiáveis", summary: "Valide formatos e considere prompt injection em documentos." },
+      { time: "01:34", title: "Saídas e ações", summary: "Valide resultados e nunca execute comandos automaticamente." },
+      { time: "02:06", title: "Acesso e segredos", summary: "Use menor privilégio, auditoria e chaves protegidas no servidor." },
+      { time: "02:37", title: "Monitoramento e testes", summary: "Observe falhas, abuso, dependências, licenças e limites." },
+      { time: "03:09", title: "Desafio e resumo", summary: "Desenho de controles para uma aplicação de alertas anonimizados." },
+    ],
+  },
+  8: {
+    duration: "2 min 57 s",
+    chapters: [
+      { time: "00:00", title: "Introdução", summary: "Conexão com carreira, RAG e IA com documentos." },
+      { time: "00:25", title: "Documentos autorizados", summary: "Defina fontes, sensibilidade, atualização e descarte." },
+      { time: "00:50", title: "Trechos e metadados", summary: "Preserve contexto, origem, página, versão e data." },
+      { time: "01:16", title: "Busca avaliada", summary: "Combine busca e filtros de autorização para reduzir erros." },
+      { time: "01:41", title: "Geração com fontes", summary: "Restrinja respostas ao contexto e cite evidências." },
+      { time: "02:06", title: "Carreira e monitoramento", summary: "Avalie qualidade, custo, cobertura e rastreabilidade." },
+      { time: "02:31", title: "Desafio e resumo", summary: "Teste perguntas com e sem evidência em documentos fictícios." },
+    ],
+  },
+  9: {
+    duration: "3 min 13 s",
+    chapters: [
+      { time: "00:00", title: "Introdução", summary: "Revisão guiada de agentes de inteligência artificial." },
+      { time: "00:28", title: "Objetivo e ferramentas", summary: "Defina escopo, ferramentas permitidas e ações proibidas." },
+      { time: "00:55", title: "Etapas observáveis", summary: "Torne planos, chamadas e decisões revisáveis." },
+      { time: "01:23", title: "Dados externos", summary: "Trate documentos e resultados de ferramentas como não confiáveis." },
+      { time: "01:50", title: "Limites e parada", summary: "Controle tempo, custo, tentativas e loops." },
+      { time: "02:18", title: "Avaliação profissional", summary: "Teste casos normais, adversariais e recusas corretas." },
+      { time: "02:45", title: "Desafio e resumo", summary: "Desenhe um agente de tickets sem ações irreversíveis." },
+    ],
+  },
+  10: {
+    duration: "4 min 20 s",
+    chapters: [
+      { time: "00:00", title: "Introdução", summary: "Desafio final conectando IA, segurança, governança e carreira." },
+      { time: "00:37", title: "Problema e escopo", summary: "Defina usuários, perguntas, limites e decisões fora do sistema." },
+      { time: "01:14", title: "Dados e arquitetura", summary: "Classifique dados e separe validação, recuperação, geração e revisão." },
+      { time: "01:51", title: "Segurança e governança", summary: "Proteja chaves, aplique menor privilégio e estabeleça responsáveis." },
+      { time: "02:28", title: "Testes adversariais", summary: "Avalie fontes, recusas, entradas ambíguas e efeitos colaterais." },
+      { time: "03:05", title: "Carreira e portfólio", summary: "Conecte competências de IA a funções profissionais de segurança." },
+      { time: "03:43", title: "Desafio final e encerramento", summary: "Entregue arquitetura, matriz de riscos, controles e reflexão humana." },
+    ],
+  },
 };
 
 export function getAuthorialVideoLessons(course: StarterCourse): AuthorialVideoLesson[] {
@@ -102,7 +162,7 @@ export function getAuthorialVideoLessons(course: StarterCourse): AuthorialVideoL
       focus,
       chapters,
       transcript: chapters.map((chapter) => ({ time: chapter.time, text: `${chapter.title}: ${chapter.summary}` })),
-      status: course.slug === "ia-do-zero-ao-avancado" && index <= 4 ? "publicado" : "roteiro_autoral",
+      status: course.slug === "ia-do-zero-ao-avancado" && index <= 9 ? "publicado" : "roteiro_autoral",
       mediaUrl:
         course.slug !== "ia-do-zero-ao-avancado"
           ? undefined
@@ -116,7 +176,17 @@ export function getAuthorialVideoLessons(course: StarterCourse): AuthorialVideoL
                   ? "/video-media/cyberdimension-aula-04_ca0f8d58.mp4"
                   : index === 4
                     ? "/video-media/cyberdimension-aula-05_28f3aaa3.mp4"
-                    : undefined,
+                    : index === 5
+                      ? "/video-media/cyberdimension-aula-06_6b89804d.mp4"
+                      : index === 6
+                        ? "/video-media/cyberdimension-aula-07_18f73067.mp4"
+                        : index === 7
+                          ? "/video-media/cyberdimension-aula-08_d29221a4.mp4"
+                          : index === 8
+                            ? "/video-media/cyberdimension-aula-09_624100da.mp4"
+                            : index === 9
+                              ? "/video-media/cyberdimension-aula-10_5091ed9a.mp4"
+                              : undefined,
     };
   });
 }

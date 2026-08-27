@@ -1571,5 +1571,8 @@
 - [x] Corrigir player sem duração/play na Aula 01 e revisar a disponibilidade real das demais aulas autorais
 - [x] Reproduzir e corrigir a falha persistente do player no ambiente publicado, verificando endpoint, logs e resposta efetiva do navegador
 - [x] Ler e comparar os anexos recebidos com o player atual para diagnosticar a falha concreta
-- [ ] Produzir e validar videoaulas reais para as Aulas 02–10 da Academia de IA, preservando roteiros, capítulos, transcrições, quizzes e progresso (Lote 1 concluído; Aulas 04–10 pendentes)
+- [x] Produzir e validar videoaulas reais para as Aulas 02–10 da Academia de IA, preservando roteiros, capítulos, transcrições, quizzes e progresso
 - [x] Produzir e validar o Lote 2 das videoaulas reais: Aula 04 e Aula 05 da Academia de IA
+- [x] Produzir e validar o Lote 3 das Aulas 06–07
+- [x] Produzir e validar o Lote 4 das Aulas 08–09
+- [x] Concluir as Aulas 06–10 sem nova autorização, produzindo, validando, publicando e sincronizando cada lote

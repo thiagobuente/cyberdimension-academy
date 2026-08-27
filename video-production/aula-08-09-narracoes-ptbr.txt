@@ -1,0 +1,43 @@
+AULA 08 — CONEXÃO COM CARREIRA: RAG E IA COM DOCUMENTOS
+
+Bem-vindo à Aula 08. Hoje vamos conectar IA com documentos usando uma arquitetura de recuperação e geração, conhecida como RAG, sempre com foco em fontes, privacidade e rastreabilidade.
+
+Em vez de pedir que o modelo responda apenas com conhecimento geral, um sistema RAG busca trechos relevantes em uma coleção autorizada e usa esses trechos como contexto. A resposta deve apontar para as fontes recuperadas e reconhecer quando não há evidência suficiente.
+
+O fluxo começa na preparação. Defina quais documentos podem entrar, classifique a sensibilidade, remova informações desnecessárias e estabeleça regras de atualização e descarte. Um índice não deve virar um depósito permanente de dados confidenciais.
+
+Na etapa de divisão, documentos são separados em trechos que preservam contexto. Trechos pequenos demais perdem significado; trechos grandes demais dificultam a recuperação. Registre a origem, a página, a versão e a data de cada trecho.
+
+A busca pode usar palavras-chave, embeddings ou uma combinação dos dois. Avalie resultados com exemplos conhecidos. Se o sistema recuperar um trecho parecido, mas de outra versão, a resposta pode ficar incorreta. Filtros por autorização, versão e categoria reduzem esse risco.
+
+A geração deve ser restrita ao contexto. Instrua o sistema a citar as fontes, separar fatos de inferências e dizer quando a informação não foi encontrada. Não permita que uma instrução dentro de um documento substitua as regras do sistema.
+
+Para carreira, esse conhecimento ajuda em análise de políticas, suporte a equipes, pesquisa de controles e criação de relatórios. O profissional que entende a arquitetura consegue avaliar qualidade, segurança e limites, em vez de apenas usar uma caixa-preta.
+
+Monitore cobertura, precisão, latência, custo e respostas sem fonte. Crie avaliações com perguntas representativas e revise alterações no índice. Proteja os logs e evite registrar o documento inteiro quando bastam identificadores.
+
+Desafio: construa um fluxo para consultar uma pequena coleção de políticas fictícias. Mostre a fonte de cada resposta, teste uma pergunta fora do conjunto e documente o que acontece quando não há evidência.
+
+Resumo: RAG depende de documentos autorizados, trechos bem preparados, recuperação avaliada, fontes visíveis e recusa quando a evidência falta. Na próxima aula, vamos revisar agentes de IA e seus limites.
+
+AULA 09 — REVISÃO GUIADA: AGENTES DE INTELIGÊNCIA ARTIFICIAL
+
+Bem-vindo à Aula 09. Vamos revisar agentes de IA: sistemas que observam um objetivo, planejam etapas, usam ferramentas e avaliam resultados sob regras definidas.
+
+Um agente não é apenas um chat. Ele pode consultar uma base, chamar uma API, criar uma tarefa ou sugerir uma decisão. Quanto mais ações ele pode realizar, maior precisa ser o controle de escopo, autorização e reversão.
+
+Comece com um objetivo limitado. Liste as ferramentas permitidas, os parâmetros aceitos, os dados acessíveis e as ações proibidas. Nunca dê ao agente uma chave com mais privilégio do que a tarefa exige.
+
+Use etapas observáveis. O plano, a chamada de ferramenta, a resposta e a decisão seguinte devem poder ser revisados. Para ações sensíveis, exija uma confirmação humana antes de executar. Um agente não deve transformar uma intenção ambígua em mudança irreversível.
+
+Trate resultados de ferramentas e documentos externos como dados não confiáveis. Eles podem conter instruções que tentam alterar o comportamento do agente. Separe instruções do sistema, contexto recuperado e entrada do usuário.
+
+Defina limites: tempo, custo, quantidade de chamadas, tamanho de resposta e número de tentativas. Crie uma parada segura para loops e falhas do provedor. Registre identificadores técnicos sem armazenar segredos.
+
+Avalie o agente com cenários normais e adversariais. Teste entradas ambíguas, permissões insuficientes, ferramentas indisponíveis, documentos maliciosos e respostas incompletas. A avaliação deve medir não só sucesso, mas também recusa correta e ausência de efeitos colaterais.
+
+Na prática profissional, entender agentes ajuda em automação de triagem, documentação, pesquisa e operações controladas. O objetivo não é automatizar tudo; é automatizar com responsabilidade e manter pessoas no circuito de decisões importantes.
+
+Desafio: desenhe um agente que classifica tickets fictícios sem executar ações. Liste suas ferramentas, limites, critérios de parada, casos de teste e pontos de aprovação humana.
+
+Resumo: agentes precisam de objetivo estreito, ferramentas mínimas, etapas auditáveis, limites de execução, proteção contra instruções externas e revisão humana. Na próxima aula, vamos integrar tudo em um desafio final de aplicação.

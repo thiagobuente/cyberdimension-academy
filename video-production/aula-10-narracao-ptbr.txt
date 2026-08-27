@@ -1,0 +1,27 @@
+AULA 10 — DESAFIO DE APLICAÇÃO: IA AVANÇADA, SEGURANÇA, GOVERNANÇA E MERCADO
+
+Bem-vindo à Aula 10, o desafio final da Academia de Inteligência Artificial. Nesta aula vamos conectar aplicação avançada, segurança, governança e carreira em um único projeto controlado.
+
+Imagine que uma equipe precisa criar um assistente interno para consultar procedimentos de segurança. O assistente deve responder com base em documentos autorizados, indicar fontes, proteger dados e encaminhar decisões sensíveis para uma pessoa.
+
+Comece pelo problema. Escreva o objetivo, os usuários, as perguntas esperadas e o que está fora do escopo. O sistema pode explicar um procedimento, mas não deve aprovar uma exceção, executar uma mudança ou substituir uma decisão de risco.
+
+Agora defina os dados. Separe documentos públicos, internos e confidenciais. Remova informações pessoais desnecessárias, controle versões e registre quem pode consultar cada coleção. O conhecimento precisa ser útil, atualizável e governável.
+
+Desenhe a arquitetura. Uma camada recebe e valida a pergunta. Outra recupera trechos autorizados. A geração produz uma resposta fundamentada. Uma camada final verifica formato, fontes, dados sensíveis e necessidade de revisão humana.
+
+A segurança acompanha cada etapa. Proteja chaves no servidor, use menor privilégio, limite requisições e trate documentos recuperados como conteúdo não confiável. Não execute comandos sugeridos pelo modelo e crie uma parada segura para falhas e loops.
+
+A governança transforma boas intenções em regras observáveis. Defina responsáveis, registros, retenção, revisão de mudanças, critérios de qualidade e um processo para corrigir respostas incorretas. Documente limitações e informe quando o sistema não encontrou evidência suficiente.
+
+Teste o projeto com cenários normais e adversariais. Faça perguntas respondíveis, perguntas fora da base, tentativas de obter dados restritos, instruções escondidas em documentos e entradas ambíguas. Avalie a resposta, a fonte, a recusa e qualquer efeito colateral.
+
+Pense no mercado. Profissionais de segurança que entendem IA podem atuar em governança, segurança de aplicações, detecção, engenharia de dados, avaliação de modelos e gestão de riscos. O diferencial não é apenas conhecer uma ferramenta, mas explicar decisões e demonstrar controles.
+
+Desafio final: entregue um desenho de arquitetura, uma matriz de riscos com pelo menos cinco riscos, um checklist de controles, três casos de teste e uma reflexão sobre a responsabilidade humana. Use apenas dados fictícios e registre as suposições.
+
+Antes de considerar o projeto pronto, pergunte: o objetivo está claro? Os dados estão protegidos? As fontes são rastreáveis? As saídas são validadas? As ações têm limites? Há revisão humana? O monitoramento detecta falhas? Existe um plano de interrupção?
+
+Parabéns por concluir a Academia de Inteligência Artificial. Você começou pelos fundamentos, passou por ferramentas, prompts, evidências, programação, segurança, APIs, RAG e agentes, e agora consegue avaliar uma solução de ponta a ponta.
+
+A competência mais importante é continuar aprendendo com responsabilidade. Use IA para ampliar seu raciocínio, nunca para abandonar evidências, segurança ou ética. Seu próximo passo é transformar este desafio em um projeto de portfólio e explicar como cada decisão protege pessoas, sistemas e informações.
