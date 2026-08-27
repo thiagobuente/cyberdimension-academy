@@ -78,6 +78,25 @@ type QuizFeedback = {
   streak?: QuizStreakFeedback;
 };
 
+type LocalAuthorialVideoProgress = Record<string, { currentTime: number; duration: number; completed: boolean }>;
+
+const authorialVideoProgressKey = (courseSlug: string) => `cyberdimension-authorial-video-progress:${courseSlug}`;
+
+function readLocalAuthorialVideoProgress(courseSlug: string): LocalAuthorialVideoProgress {
+  try {
+    return JSON.parse(window.localStorage.getItem(authorialVideoProgressKey(courseSlug)) ?? "{}") as LocalAuthorialVideoProgress;
+  } catch {
+    return {};
+  }
+}
+
+function formatVideoTime(value: number) {
+  if (!Number.isFinite(value) || value < 0) return "0:00";
+  const minutes = Math.floor(value / 60);
+  const seconds = Math.floor(value % 60).toString().padStart(2, "0");
+  return `${minutes}:${seconds}`;
+}
+
 function QuizStreakNotice({ streak }: { streak?: QuizStreakFeedback }) {
   if (!streak || streak.currentStreak < 2) return null;
   const earnedBonus = streak.bonusXp > 0;
@@ -108,6 +127,8 @@ export default function FormationStudy() {
   const [videoQuizAnswers, setVideoQuizAnswers] = useState<number[]>([]);
   const [videoQuizResult, setVideoQuizResult] = useState<QuizFeedback | null>(null);
   const [videoQuizVisible, setVideoQuizVisible] = useState(false);
+  const [selectedAuthorialVideo, setSelectedAuthorialVideo] = useState(0);
+  const [authorialVideoProgress, setAuthorialVideoProgress] = useState<LocalAuthorialVideoProgress>({});
   const [certificateDialogOpen, setCertificateDialogOpen] = useState(false);
   const [projectSummary, setProjectSummary] = useState("");
   const [projectRubric, setProjectRubric] = useState<Record<string, number>>({ escopo: 0, risco: 0, controles: 0, governanca: 0, metricas: 0 });
@@ -116,6 +137,7 @@ export default function FormationStudy() {
   const videoFrameContainerRef = useRef<HTMLDivElement>(null);
   const studyHeadingRef = useRef<HTMLHeadingElement>(null);
   const previousModuleRef = useRef<number | null>(null);
+  const authorialVideoRef = useRef<HTMLVideoElement>(null);
   const { preferences } = useReadingPreferences();
   const courseSlug = course?.slug ?? "fundamentos-ti";
   const authorialVideoLessons = useMemo(() => course ? getAuthorialVideoLessons(course) : [], [course]);
@@ -190,6 +212,26 @@ export default function FormationStudy() {
     setVideoNoteDraft(savedNote?.content ?? "");
   }, [courseSlug, progressQuery.data?.videoNotes, selectedModule, selectedVideoChapter]);
 
+  useEffect(() => {
+    setAuthorialVideoProgress(readLocalAuthorialVideoProgress(courseSlug));
+    setSelectedAuthorialVideo(0);
+  }, [courseSlug]);
+
+  useEffect(() => {
+    const lesson = authorialVideoLessons[selectedAuthorialVideo];
+    const saved = lesson ? authorialVideoProgress[lesson.id] : undefined;
+    const video = authorialVideoRef.current;
+    if (!video || !lesson?.mediaUrl) return;
+    const restore = () => {
+      if (saved && Number.isFinite(saved.currentTime) && saved.currentTime > 0 && saved.currentTime < video.duration) {
+        video.currentTime = saved.currentTime;
+      }
+      video.playbackRate = playbackRate;
+    };
+    video.addEventListener("loadedmetadata", restore, { once: true });
+    return () => video.removeEventListener("loadedmetadata", restore);
+  }, [authorialVideoLessons, selectedAuthorialVideo, authorialVideoProgress, playbackRate]);
+
   const eventVideoSession = course?.videoLearning?.sessions.find((session) => session.moduleIndex === selectedModule);
   useEffect(() => {
     if (!eventVideoSession) return;
@@ -250,6 +292,37 @@ export default function FormationStudy() {
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Não foi possível atualizar seus favoritos.");
     }
+  };
+
+  const persistAuthorialVideoProgress = (completed?: boolean) => {
+    const lesson = authorialVideoLessons[selectedAuthorialVideo];
+    const video = authorialVideoRef.current;
+    if (!lesson || !video) return;
+    const next = {
+      ...authorialVideoProgress,
+      [lesson.id]: {
+        currentTime: video.currentTime,
+        duration: Number.isFinite(video.duration) ? video.duration : 0,
+        completed: completed ?? authorialVideoProgress[lesson.id]?.completed ?? false,
+      },
+    };
+    setAuthorialVideoProgress(next);
+    window.localStorage.setItem(authorialVideoProgressKey(courseSlug), JSON.stringify(next));
+  };
+
+  const handleAuthorialVideoSelect = (index: number) => {
+    setSelectedAuthorialVideo(index);
+    setTimeout(() => authorialVideoRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 0);
+  };
+
+  const handleAuthorialVideoComplete = () => {
+    persistAuthorialVideoProgress(true);
+    toast.success("Videoaula concluída e progresso salvo neste dispositivo.");
+  };
+
+  const handleAuthorialVideoSpeed = (rate: number) => {
+    setPlaybackRate(rate);
+    if (authorialVideoRef.current) authorialVideoRef.current.playbackRate = rate;
   };
 
   const handleVideoChapter = async (chapterIndex: number) => {
@@ -509,7 +582,7 @@ export default function FormationStudy() {
                 <div className="mt-5 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]"><div ref={videoFrameContainerRef} className="overflow-hidden rounded-xl border border-white/10 bg-black/30"><div className="aspect-video"><iframe ref={videoFrameRef} onLoad={handleVideoFrameLoaded} className="h-full w-full" src={videoEmbedUrl} title={`${course.videoLearning.label} — ${activeVideoSession.title}`} loading="lazy" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /></div><div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 bg-black/50 px-3 py-2.5"><div className="flex items-center gap-1" aria-label="Velocidade de reprodução">{[0.75, 1, 1.25, 1.5].map((rate) => <button key={rate} type="button" onClick={() => handlePlaybackRate(rate)} aria-pressed={playbackRate === rate} className={`orbit-button rounded-md px-2 py-1 text-xs font-bold ${playbackRate === rate ? "bg-neon-purple/20 text-neon-purple" : "text-muted-foreground hover:text-foreground"}`}>{rate.toLocaleString("pt-BR")}x</button>)}</div><button type="button" onClick={handleToggleFullscreen} className="orbit-button inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-bold text-neon-purple"><Expand className="h-3.5 w-3.5" /> Tela cheia</button></div></div><aside className="rounded-xl border border-white/10 bg-black/15 p-4"><p className="text-xs font-bold tracking-[0.14em] text-neon-purple">ROTEIRO DE FOCO</p><ol className="mt-4 space-y-3 text-sm leading-6 text-muted-foreground"><li className="flex gap-3"><span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-neon-purple/15 text-xs font-bold text-neon-purple">1</span><span>Assista com uma pergunta em mente: qual controle reduz o risco apresentado?</span></li><li className="flex gap-3"><span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-neon-purple/15 text-xs font-bold text-neon-purple">2</span><span>Registre uma ideia e conecte-a ao cenário deste módulo.</span></li><li className="flex gap-3"><span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-neon-purple/15 text-xs font-bold text-neon-purple">3</span><span>Quando o vídeo terminar, o quiz aparecerá automaticamente abaixo.</span></li></ol><a href={course.videoLearning.sourceUrl} target="_blank" rel="noreferrer" className="orbit-button mt-5 inline-flex items-center gap-2 text-xs font-bold text-neon-purple">Abrir fonte no YouTube <ChevronRight className="h-4 w-4" /></a></aside></div>
                 <p className="mt-4 text-xs leading-5 text-muted-foreground">{course.videoLearning.attribution}</p>
               </section>}
-              <section className="mt-6 rounded-2xl border border-neon-cyan/25 bg-neon-cyan/[0.05] p-4 md:p-5" aria-labelledby="authorial-video-title"><div className="flex flex-col justify-between gap-3 border-b border-white/10 pb-4 sm:flex-row sm:items-start"><div><p className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.15em] text-neon-cyan"><CirclePlay className="h-4 w-4" /> VIDEOAULAS AUTORAIS</p><h3 id="authorial-video-title" className="mt-2 font-orbitron text-lg font-bold">Dez aulas para acompanhar esta formação</h3><p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">Roteiros próprios da CyberDimension Academy, organizados em episódios curtos. A mídia final pode ser adicionada ao acervo sem alterar o conteúdo didático, o progresso ou os quizzes.</p></div><span className="shrink-0 rounded-lg border border-neon-cyan/25 bg-neon-cyan/10 px-3 py-2 text-xs font-bold text-neon-cyan">{authorialVideoLessons.length} aulas</span></div><div className="mt-4 grid gap-3 md:grid-cols-2">{authorialVideoLessons.map((lesson) => <article key={lesson.id} className="rounded-xl border border-white/10 bg-black/15 p-4"><div className="flex items-start justify-between gap-3"><div><p className="text-xs font-bold tracking-[0.13em] text-neon-cyan">AULA {String(lesson.lessonNumber).padStart(2, "0")} · {lesson.duration}</p><h4 className="mt-2 text-sm font-bold leading-5">{lesson.title}</h4></div><span className={`shrink-0 rounded-md border px-2 py-1 text-[0.6rem] font-bold ${lesson.status === "publicado" ? "border-neon-green/25 bg-neon-green/10 text-neon-green" : "border-amber-300/25 bg-amber-300/10 text-amber-200"}`}>{lesson.status === "publicado" ? "PUBLICADO" : "ROTEIRO"}</span></div><p className="mt-2 text-xs leading-5 text-muted-foreground">{lesson.focus}</p>{lesson.mediaUrl ? <div className="mt-4 space-y-2"><video className="aspect-video w-full rounded-lg border border-neon-green/25 bg-black/40 object-contain" controls preload="metadata" playsInline aria-label={`Videoaula ${lesson.title}`}><source src={lesson.mediaUrl} type="video/mp4" />Seu navegador não conseguiu carregar este vídeo.</video><a href={lesson.mediaUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-xs font-bold text-neon-cyan hover:underline">Abrir mídia em nova aba <ChevronRight className="h-3.5 w-3.5" /></a></div> : null}<details className="mt-3 rounded-lg border border-white/8 bg-black/15 p-3"><summary className="cursor-pointer text-xs font-bold text-foreground">Ver capítulos e transcrição</summary><div className="mt-3 space-y-2">{lesson.chapters.map((chapter) => <div key={`${lesson.id}-${chapter.time}`} className="text-xs leading-5"><span className="font-bold text-neon-cyan">{chapter.time}</span><span className="ml-2 font-bold">{chapter.title}</span><p className="mt-1 text-muted-foreground">{chapter.summary}</p></div>)}</div></details></article>)}</div></section>
+              <section className="mt-6 rounded-2xl border border-neon-cyan/25 bg-neon-cyan/[0.05] p-4 md:p-5" aria-labelledby="authorial-video-title"><div className="flex flex-col justify-between gap-3 border-b border-white/10 pb-4 sm:flex-row sm:items-start"><div><p className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.15em] text-neon-cyan"><CirclePlay className="h-4 w-4" /> VIDEOAULAS AUTORAIS</p><h3 id="authorial-video-title" className="mt-2 font-orbitron text-lg font-bold">Dez aulas para acompanhar esta formação</h3><p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">Roteiros próprios da CyberDimension Academy, organizados em episódios curtos. A mídia final pode ser adicionada ao acervo sem alterar o conteúdo didático, o progresso ou os quizzes.</p></div><span className="shrink-0 rounded-lg border border-neon-cyan/25 bg-neon-cyan/10 px-3 py-2 text-xs font-bold text-neon-cyan">{authorialVideoLessons.length} aulas</span></div><div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_17rem]"><aside className="order-2 rounded-xl border border-white/10 bg-black/20 p-3 lg:order-1" aria-label="Navegação das videoaulas"><div className="flex items-center justify-between gap-2 border-b border-white/10 pb-3"><p className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.12em] text-neon-cyan"><ListVideo className="h-4 w-4" /> AULAS</p><span className="text-xs text-muted-foreground">{authorialVideoLessons.length}</span></div><div className="mt-3 space-y-2">{authorialVideoLessons.map((lesson, index) => { const local = authorialVideoProgress[lesson.id]; const active = index === selectedAuthorialVideo; return <button key={lesson.id} type="button" onClick={() => handleAuthorialVideoSelect(index)} className={`w-full rounded-lg border px-3 py-2 text-left transition-colors ${active ? "border-neon-cyan/60 bg-neon-cyan/10" : "border-white/10 bg-black/10 hover:border-neon-cyan/30"}`} aria-current={active ? "true" : undefined}><span className="flex items-center justify-between gap-2"><span className={`text-[0.65rem] font-bold tracking-[0.1em] ${active ? "text-neon-cyan" : "text-muted-foreground"}`}>AULA {String(lesson.lessonNumber).padStart(2, "0")}</span>{local?.completed ? <CheckCircle2 className="h-3.5 w-3.5 text-neon-green" aria-label="Concluída" /> : null}</span><span className="mt-1 block text-xs font-semibold leading-4 text-foreground">{lesson.title}</span>{local && local.duration > 0 ? <span className="mt-1 block text-[0.65rem] text-muted-foreground">{Math.round((local.currentTime / local.duration) * 100)}% assistido</span> : null}</button>; })}</div></aside><article className="order-1 rounded-xl border border-white/10 bg-black/15 p-4 lg:order-2"><div className="flex items-start justify-between gap-3"><div><p className="text-xs font-bold tracking-[0.13em] text-neon-cyan">AULA {String(authorialVideoLessons[selectedAuthorialVideo]?.lessonNumber ?? 1).padStart(2, "0")} · {authorialVideoLessons[selectedAuthorialVideo]?.duration}</p><h4 className="mt-2 text-base font-bold leading-5">{authorialVideoLessons[selectedAuthorialVideo]?.title}</h4></div><span className={`shrink-0 rounded-md border px-2 py-1 text-[0.6rem] font-bold ${authorialVideoLessons[selectedAuthorialVideo]?.status === "publicado" ? "border-neon-green/25 bg-neon-green/10 text-neon-green" : "border-amber-300/25 bg-amber-300/10 text-amber-200"}`}>{authorialVideoLessons[selectedAuthorialVideo]?.status === "publicado" ? "PUBLICADO" : "ROTEIRO"}</span></div><p className="mt-2 text-xs leading-5 text-muted-foreground">{authorialVideoLessons[selectedAuthorialVideo]?.focus}</p>{authorialVideoLessons[selectedAuthorialVideo]?.mediaUrl ? <div className="mt-4 space-y-3"><video ref={authorialVideoRef} className="aspect-video w-full rounded-lg border border-neon-green/25 bg-black/40 object-contain" controls preload="metadata" playsInline aria-label={`Videoaula ${authorialVideoLessons[selectedAuthorialVideo].title}`} onTimeUpdate={() => persistAuthorialVideoProgress()} onPause={() => persistAuthorialVideoProgress()} onEnded={() => { persistAuthorialVideoProgress(true); toast.success("Videoaula concluída automaticamente."); }}><source src={authorialVideoLessons[selectedAuthorialVideo].mediaUrl} type="video/mp4" />Seu navegador não conseguiu carregar este vídeo.</video><div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-white/10 bg-black/25 p-2"><div className="flex items-center gap-1" aria-label="Velocidade de reprodução">{[0.75, 1, 1.25, 1.5, 2].map((rate) => <button key={rate} type="button" onClick={() => handleAuthorialVideoSpeed(rate)} aria-pressed={playbackRate === rate} className={`rounded-md px-2.5 py-1.5 text-xs font-bold transition-colors ${playbackRate === rate ? "bg-neon-cyan text-slate-950" : "text-muted-foreground hover:bg-white/10 hover:text-foreground"}`}>{rate.toLocaleString("pt-BR")}x</button>)}</div><button type="button" onClick={handleAuthorialVideoComplete} className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition-colors ${authorialVideoProgress[authorialVideoLessons[selectedAuthorialVideo].id]?.completed ? "bg-neon-green/15 text-neon-green" : "bg-neon-green text-slate-950 hover:bg-neon-green/80"}`}><CheckCircle2 className="h-3.5 w-3.5" />{authorialVideoProgress[authorialVideoLessons[selectedAuthorialVideo].id]?.completed ? "Aula concluída" : "Marcar concluída"}</button></div><p className="text-[0.7rem] text-muted-foreground">{authorialVideoProgress[authorialVideoLessons[selectedAuthorialVideo].id]?.currentTime ? `Retomada em ${formatVideoTime(authorialVideoProgress[authorialVideoLessons[selectedAuthorialVideo].id].currentTime)}` : "Seu progresso é salvo neste dispositivo."}</p><a href={authorialVideoLessons[selectedAuthorialVideo].mediaUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-xs font-bold text-neon-cyan hover:underline">Abrir mídia em nova aba <ChevronRight className="h-3.5 w-3.5" /></a></div> : <div className="mt-4 rounded-lg border border-amber-300/20 bg-amber-300/5 p-4 text-sm text-muted-foreground">Esta aula está em roteiro. A mídia será adicionada ao acervo em um próximo lote.</div>}<details className="mt-3 rounded-lg border border-white/8 bg-black/15 p-3"><summary className="cursor-pointer text-xs font-bold text-foreground">Ver capítulos e transcrição</summary><div className="mt-3 space-y-2">{authorialVideoLessons[selectedAuthorialVideo]?.chapters.map((chapter) => <div key={`${authorialVideoLessons[selectedAuthorialVideo].id}-${chapter.time}`} className="text-xs leading-5"><span className="font-bold text-neon-cyan">{chapter.time}</span><span className="ml-2 font-bold">{chapter.title}</span><p className="mt-1 text-muted-foreground">{chapter.summary}</p></div>)}</div></details></article></div></section>
               <div className="mt-6 grid gap-4 xl:grid-cols-[0.86fr_1.14fr]">
                 <LearningJourney hasVideo={Boolean(course.videoLearning)} compact />
                 <ContentTransparency course={course} compact />
