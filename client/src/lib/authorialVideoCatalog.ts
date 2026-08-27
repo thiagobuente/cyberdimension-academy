@@ -9,7 +9,8 @@ export type AuthorialVideoLesson = {
   focus: string;
   chapters: readonly { time: string; title: string; summary: string }[];
   transcript: readonly { time: string; text: string }[];
-  status: "roteiro_autoral";
+  status: "roteiro_autoral" | "publicado";
+  mediaUrl?: string;
 };
 
 const lessonFrames = [
@@ -49,7 +50,8 @@ export function getAuthorialVideoLessons(course: StarterCourse): AuthorialVideoL
       focus,
       chapters,
       transcript: chapters.map((chapter) => ({ time: chapter.time, text: `${chapter.title}: ${chapter.summary}` })),
-      status: "roteiro_autoral",
+      status: course.slug === "ia-do-zero-ao-avancado" && index === 0 ? "publicado" : "roteiro_autoral",
+      mediaUrl: course.slug === "ia-do-zero-ao-avancado" && index === 0 ? "/manus-storage/ai-academy-01-foundations_0311788c.mp4" : undefined,
     };
   });
 }

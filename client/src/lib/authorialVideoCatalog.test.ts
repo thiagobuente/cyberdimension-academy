@@ -7,7 +7,7 @@ describe("authorial video catalog", () => {
     const allLessons = functionalCourses.flatMap((course) => getAuthorialVideoLessons(course));
     expect(functionalCourses.length).toBeGreaterThan(4);
     expect(allLessons).toHaveLength(functionalCourses.length * 10);
-    expect(allLessons.every((lesson) => lesson.status === "roteiro_autoral")).toBe(true);
+    expect(allLessons.every((lesson) => lesson.status === "roteiro_autoral" || lesson.status === "publicado")).toBe(true);
     expect(allLessons.every((lesson) => lesson.chapters.length === 3 && lesson.transcript.length === 3)).toBe(true);
   });
 
