@@ -82,6 +82,14 @@ export const ACADEMY_ENGLISH_VOCABULARY: Readonly<
     pickTerm("enforce"),
     pickTerm("remediation"),
   ],
+  "artificial-intelligence": [
+    pickTerm("threat"),
+    pickTerm("vulnerability"),
+    pickTerm("breach"),
+    pickTerm("leaked"),
+    pickTerm("mitigation"),
+    pickTerm("compliance"),
+  ],
 } as const;
 
 /** Filtra valores nulos mantendo apenas termos que existem no vocabulário. */

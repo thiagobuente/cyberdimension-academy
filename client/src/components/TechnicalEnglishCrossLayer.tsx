@@ -15,6 +15,7 @@ const sectionHeader = {
   "threat-intelligence": "TECHNICAL ENGLISH · THREAT INTELLIGENCE",
   "security-engineering": "TECHNICAL ENGLISH · SECURITY ENGINEERING",
   "ai-security": "TECHNICAL ENGLISH · AI SECURITY",
+  "artificial-intelligence": "TECHNICAL ENGLISH · ARTIFICIAL INTELLIGENCE",
 } as const;
 
 export function TechnicalEnglishCrossLayer({ academySlug }: { academySlug: AcademySlug }) {

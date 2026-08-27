@@ -3,8 +3,8 @@ import { assessmentPassingScore, executeSafeLabCommand, getEarnedBadgeCodes, get
 
 describe("regras das formações CyberDimension", () => {
   it("mantém todas as formações com módulos e laboratórios exigidos para a certificação", () => {
-    // 4 formações base + 56 cursos ativados do catálogo + 8 cursos de consultoria
-    expect(orbitCourseSlugs).toHaveLength(68);
+    // 4 formações base + 56 cursos ativados do catálogo + 8 cursos de consultoria + 1 Academia de IA
+    expect(orbitCourseSlugs).toHaveLength(69);
     expect(orbitCourseSlugs).toContain("gestao-projetos-seguranca-cibernetica");
     for (const slug of orbitCourseSlugs) {
       const requirements = orbitCourseRequirements[slug];
@@ -18,6 +18,7 @@ describe("regras das formações CyberDimension", () => {
     expect(getOrbitCourseRequirements("fundamentos-ti")?.moduleCount).toBe(5);
     expect(getOrbitCourseRequirements("windows-security")?.moduleCount).toBe(3);
     expect(getOrbitCourseRequirements("cloud-security-fundamentals")?.labCount).toBe(2);
+    expect(getOrbitCourseRequirements("ia-do-zero-ao-avancado")).toMatchObject({ moduleCount: 10, labCount: 10 });
     expect(getOrbitCourseRequirements("curso-inexistente")).toBeNull();
   });
 
@@ -34,6 +35,8 @@ describe("regras das formações CyberDimension", () => {
     expect(executeSafeLabCommand("aws-security-fundamentals", 0, "revisar-aws-iam --funcao relatorio --recurso bucket-treino")).toMatchObject({ success: true });
     expect(executeSafeLabCommand("identidade-autenticacao-segura", 0, "revisar-autenticacao --perfil colaborador --mfa obrigatorio")).toMatchObject({ success: true });
     expect(executeSafeLabCommand("cloud-security-operations", 0, "mapear-responsabilidade-cloud --cenario loja-treino --somente-leitura")).toMatchObject({ success: true });
+    expect(getPublicAssessment("ia-do-zero-ao-avancado")).toHaveLength(10);
+    expect(executeSafeLabCommand("ia-do-zero-ao-avancado", 0, "mapear-ia --cenario assistente-estudo --modo didatico")).toMatchObject({ success: true });
   });
 
   it("ativa os cursos de consultoria com avaliação, módulos e laboratórios guiados", () => {

@@ -11,6 +11,7 @@ const academyColor: Record<AcademySlug, { text: string; bg: string; border: stri
   "threat-intelligence": { text: "text-neon-green", bg: "bg-neon-green/10", border: "border-neon-green/25", bar: "from-neon-green to-neon-cyan", icon: "bg-neon-green/15 text-neon-green" },
   "security-engineering": { text: "text-sky-300", bg: "bg-sky-400/10", border: "border-sky-400/25", bar: "from-sky-400 to-neon-purple", icon: "bg-sky-400/15 text-sky-300" },
   "ai-security": { text: "text-lime-300", bg: "bg-lime-400/10", border: "border-lime-400/25", bar: "from-lime-400 to-neon-green", icon: "bg-lime-400/15 text-lime-300" },
+  "artificial-intelligence": { text: "text-cyan-200", bg: "bg-cyan-400/10", border: "border-cyan-400/25", bar: "from-cyan-300 to-blue-400", icon: "bg-cyan-400/15 text-cyan-200" },
 };
 
 interface AcademyProgressCardsProps {

@@ -63,6 +63,7 @@ const iconMap: Record<AcademySlug, typeof Shield> = {
   "threat-intelligence": Radar,
   "security-engineering": Network,
   "ai-security": Sparkles,
+  "artificial-intelligence": Sparkles,
 };
 
 const colorMap = {

@@ -6,7 +6,7 @@ import { TechnicalEnglishCrossLayer } from "@/components/TechnicalEnglishCrossLa
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 
-const iconMap: Record<AcademySlug, typeof Shield> = { "blue-team": Shield, "red-team": Crosshair, grc: Scale, "cloud-security": Cloud, "threat-intelligence": Radar, "security-engineering": Network, "ai-security": Sparkles };
+const iconMap: Record<AcademySlug, typeof Shield> = { "blue-team": Shield, "red-team": Crosshair, grc: Scale, "cloud-security": Cloud, "threat-intelligence": Radar, "security-engineering": Network, "ai-security": Sparkles, "artificial-intelligence": Sparkles };
 const colorMap = { cyan: "text-neon-cyan border-neon-cyan/25 bg-neon-cyan/8", purple: "text-neon-purple border-neon-purple/25 bg-neon-purple/8", green: "text-neon-green border-neon-green/25 bg-neon-green/8", blue: "text-blue-300 border-blue-300/25 bg-blue-300/8", amber: "text-amber-300 border-amber-300/25 bg-amber-300/8", rose: "text-rose-300 border-rose-300/25 bg-rose-300/8", lime: "text-lime-300 border-lime-300/25 bg-lime-300/8" };
 
 export default function AcademyPaths() {

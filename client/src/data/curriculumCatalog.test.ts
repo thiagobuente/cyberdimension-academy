@@ -3,14 +3,14 @@ import { academies, curriculumCourses, getCoursesForAcademy } from "./curriculum
 
 describe("curriculum catalog", () => {
   it("mantém a expansão com cinquenta e seis cursos e níveis definidos", () => {
-    expect(curriculumCourses).toHaveLength(66);
+    expect(curriculumCourses).toHaveLength(67);
     expect(curriculumCourses.filter((course) => course.level === "Iniciante")).toHaveLength(17);
     expect(curriculumCourses.filter((course) => course.level === "Intermediário")).toHaveLength(37);
-    expect(curriculumCourses.filter((course) => course.level === "Avançado")).toHaveLength(12);
+    expect(curriculumCourses.filter((course) => course.level === "Avançado")).toHaveLength(13);
   });
 
   it("mantém sete academias com uma rota curricular", () => {
-    expect(academies).toHaveLength(7);
+    expect(academies).toHaveLength(8);
     expect(academies.every((academy) => academy.route.length >= 4)).toBe(true);
     expect(getCoursesForAcademy("blue-team").length).toBeGreaterThan(0);
   });

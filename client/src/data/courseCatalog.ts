@@ -1,8 +1,9 @@
 import { activatedCatalogCourses } from "@shared/activatedCatalogCourses";
 import { consultoriaCourses } from "@shared/consultoriaCourses";
+import { aiAcademyCourse } from "@shared/aiAcademyCourse";
 import type { ExternalContentReference } from "@shared/contentProvenance";
 
-export type StarterCourseSlug = "fundamentos-ti" | "fundamentos-cyber-security" | "redes-para-cyber-security" | "linux-para-operacoes-de-seguranca" | (typeof activatedCatalogCourses)[number]["slug"] | (typeof consultoriaCourses)[number]["slug"];
+export type StarterCourseSlug = "fundamentos-ti" | "fundamentos-cyber-security" | "redes-para-cyber-security" | "linux-para-operacoes-de-seguranca" | "ia-do-zero-ao-avancado" | (typeof activatedCatalogCourses)[number]["slug"] | (typeof consultoriaCourses)[number]["slug"];
 
 export type StarterCourse = {
   slug: StarterCourseSlug;
@@ -197,7 +198,7 @@ const orbitStarterCourses: StarterCourse[] = [
 ];
 
 export const starterCourses: StarterCourse[] = orbitStarterCourses;
-export const functionalCourses: StarterCourse[] = [...orbitStarterCourses, ...activatedCatalogCourses, ...consultoriaCourses];
+export const functionalCourses: StarterCourse[] = [...orbitStarterCourses, ...activatedCatalogCourses, ...consultoriaCourses, aiAcademyCourse];
 
 export function getStarterCourse(slug: string) {
   return functionalCourses.find((course) => course.slug === slug);

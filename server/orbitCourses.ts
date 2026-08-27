@@ -1,5 +1,6 @@
 import { activatedCatalogCourses } from "@shared/activatedCatalogCourses";
 import { consultoriaCourses } from "@shared/consultoriaCourses";
+import { aiAcademyCourse } from "@shared/aiAcademyCourse";
 
 const baseCourseRequirements = {
   "fundamentos-ti": {
@@ -28,6 +29,7 @@ export const orbitCourseRequirements: Record<string, { title: string; moduleCoun
   ...baseCourseRequirements,
   ...Object.fromEntries(activatedCatalogCourses.map((course) => [course.slug, { title: course.title, moduleCount: course.modules.length, labCount: course.labsList.length }])),
   ...Object.fromEntries(consultoriaCourses.map((course) => [course.slug, { title: course.title, moduleCount: course.modules.length, labCount: course.labsList.length }])),
+  [aiAcademyCourse.slug]: { title: aiAcademyCourse.title, moduleCount: aiAcademyCourse.modules.length, labCount: aiAcademyCourse.labsList.length },
 };
 
 export const orbitCourseSlugs = Object.keys(orbitCourseRequirements) as [string, ...string[]];
@@ -118,6 +120,7 @@ for (const course of activatedCatalogCourses) {
 for (const course of consultoriaCourses) {
   courseAssessments[course.slug] = course.assessmentQuestions;
 }
+courseAssessments[aiAcademyCourse.slug] = aiAcademyCourse.assessmentQuestions;
 
 export const courseBadgeDefinitions = [
   { code: "first-module", title: "Primeiro Salto", description: "Concluiu o primeiro módulo da formação.", tier: "cyan" },
@@ -163,6 +166,7 @@ for (const course of activatedCatalogCourses) {
 for (const course of consultoriaCourses) {
   safeLabCommands[course.slug] = course.labsList.map((lab) => lab.command);
 }
+safeLabCommands[aiAcademyCourse.slug] = aiAcademyCourse.labsList.map((lab) => lab.command);
 
 export function executeSafeLabCommand(slug: string, labIndex: number, command: string) {
   const requirements = getOrbitCourseRequirements(slug);
@@ -174,7 +178,7 @@ export function executeSafeLabCommand(slug: string, labIndex: number, command: s
       output: "Comando não reconhecido pelo ambiente seguro. Revise a missão e execute somente o comando indicado para esta etapa.",
     };
   }
-  const course = activatedCatalogCourses.find((item) => item.slug === slug) ?? consultoriaCourses.find((item) => item.slug === slug);
+  const course = activatedCatalogCourses.find((item) => item.slug === slug) ?? consultoriaCourses.find((item) => item.slug === slug) ?? (aiAcademyCourse.slug === slug ? aiAcademyCourse : undefined);
   const lab = course?.labsList[labIndex];
   const simResult = lab?.output ?? "Resultado da simulação registrado no ambiente de laboratório.";
   return {
@@ -197,6 +201,7 @@ function getModuleTopics(slug: string): readonly ModuleTopic[] {
   if (base) return base;
   const activatedCourse = activatedCatalogCourses.find((course) => course.slug === slug);
   if (activatedCourse) return activatedCourse.modules;
+  if (slug === aiAcademyCourse.slug) return aiAcademyCourse.modules;
   return consultoriaCourses.find((course) => course.slug === slug)?.modules ?? [];
 }
 
