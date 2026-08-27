@@ -1569,3 +1569,4 @@
 - [x] Adicionar barra lateral interativa com as aulas disponíveis do curso
 - [x] Auditar e corrigir o acervo de videoaulas: eliminar 0:00, remover links Not found e separar mídia publicada de roteiros
 - [x] Corrigir player sem duração/play na Aula 01 e revisar a disponibilidade real das demais aulas autorais
+- [x] Reproduzir e corrigir a falha persistente do player no ambiente publicado, verificando endpoint, logs e resposta efetiva do navegador

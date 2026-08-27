@@ -25,7 +25,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   // Let the native media loader handle signed redirects and Range requests.
-  if (request.destination === "video" || request.destination === "audio" || url.pathname.startsWith("/manus-storage/")) {
+  if (request.destination === "video" || request.destination === "audio" || url.pathname.startsWith("/manus-storage/") || url.pathname.startsWith("/video-media/")) {
     return;
   }
 

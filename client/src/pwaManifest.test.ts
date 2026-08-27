@@ -27,5 +27,6 @@ describe("PWA contract", () => {
     expect(serviceWorker).toContain('request.destination === "video"');
     expect(serviceWorker).toContain('request.destination === "audio"');
     expect(serviceWorker).toContain('url.pathname.startsWith("/manus-storage/")');
+    expect(serviceWorker).toContain('url.pathname.startsWith("/video-media/")');
   });
 });
