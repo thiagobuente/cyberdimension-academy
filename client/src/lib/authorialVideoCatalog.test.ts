@@ -11,6 +11,13 @@ describe("authorial video catalog", () => {
     expect(allLessons.every((lesson) => lesson.chapters.length === 3 && lesson.transcript.length === 3)).toBe(true);
   });
 
+  it("publishes the AI academy pilot with a playable MP4 source", () => {
+    const lesson = getAuthorialVideoLessons(functionalCourses.find((course) => course.slug === "ia-do-zero-ao-avancado")!)[0];
+    expect(lesson.status).toBe("publicado");
+    expect(lesson.mediaUrl).toContain("/manus-storage/");
+    expect(lesson.mediaUrl).toMatch(/\.mp4$/);
+  });
+
   it("keeps lesson identifiers unique and ordered inside each course", () => {
     for (const course of functionalCourses) {
       const lessons = getAuthorialVideoLessons(course);
