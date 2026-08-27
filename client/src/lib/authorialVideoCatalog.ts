@@ -51,7 +51,7 @@ export function getAuthorialVideoLessons(course: StarterCourse): AuthorialVideoL
       chapters,
       transcript: chapters.map((chapter) => ({ time: chapter.time, text: `${chapter.title}: ${chapter.summary}` })),
       status: course.slug === "ia-do-zero-ao-avancado" && index === 0 ? "publicado" : "roteiro_autoral",
-      mediaUrl: course.slug === "ia-do-zero-ao-avancado" && index === 0 ? "/manus-storage/ai-academy-01-foundations_0311788c.mp4" : undefined,
+      mediaUrl: course.slug === "ia-do-zero-ao-avancado" && index === 0 ? "/video-media/ai-academy-01-foundations_0311788c.mp4" : undefined,
     };
   });
 }

@@ -46,6 +46,65 @@ export function registerStorageProxy(app: Express) {
     }
   });
 
+  // Entrega direta das videoaulas por bytes, evitando que o elemento <video>
+  // dependa de seguir um redirect assinado para outro domínio.
+  app.get("/video-media/:key", async (req, res) => {
+    const key = req.params.key;
+    if (!key) {
+      res.status(400).send("Missing video key");
+      return;
+    }
+
+    try {
+      const forgeUrl = new URL("v1/storage/presign/get", ENV.forgeApiUrl.replace(/\/+$/, "") + "/");
+      forgeUrl.searchParams.set("path", key);
+      const forgeResp = await fetch(forgeUrl, { headers: { Authorization: `Bearer ${ENV.forgeApiKey}` } });
+      if (!forgeResp.ok) {
+        console.error(`[VideoMedia] forge error: ${forgeResp.status}`);
+        res.status(502).send("Storage backend error");
+        return;
+      }
+      const { url } = (await forgeResp.json()) as { url: string };
+      if (!url) {
+        res.status(502).send("Empty signed URL from backend");
+        return;
+      }
+
+      const rangeHeader = req.headers.range as string | undefined;
+      const downstream = await fetch(url, rangeHeader ? { headers: { Range: rangeHeader } } : undefined);
+      if (!downstream.ok && downstream.status !== 206) {
+        res.status(downstream.status).send("Video storage read error");
+        return;
+      }
+
+      res.status(downstream.status);
+      res.setHeader("Content-Type", downstream.headers.get("content-type") || "video/mp4");
+      res.setHeader("Accept-Ranges", "bytes");
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Expose-Headers", "Content-Range, Content-Length, Accept-Ranges");
+      for (const header of ["content-length", "content-range", "last-modified", "etag"]) {
+        const value = downstream.headers.get(header);
+        if (value) res.setHeader(header, value);
+      }
+
+      const reader = downstream.body?.getReader();
+      if (!reader) {
+        res.status(502).send("No readable video body");
+        return;
+      }
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (!res.write(value)) await new Promise<void>((resolve) => res.once("drain", resolve));
+      }
+      res.end();
+    } catch (err) {
+      console.error("[VideoMedia] failed:", err);
+      if (!res.headersSent) res.status(502).send("Video media proxy error");
+      else res.end();
+    }
+  });
+
   // Servimento direto de áudio do CyberCast por bytes no próprio servidor.
   // Evita o redirect 307 do <audio> — algumas redes/extensões/proxies falham ao
   // seguir redirects em requisições de mídia (Range), causando o erro "Não foi

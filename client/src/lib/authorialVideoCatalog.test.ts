@@ -14,7 +14,7 @@ describe("authorial video catalog", () => {
   it("publishes the AI academy pilot with a playable MP4 source", () => {
     const lesson = getAuthorialVideoLessons(functionalCourses.find((course) => course.slug === "ia-do-zero-ao-avancado")!)[0];
     expect(lesson.status).toBe("publicado");
-    expect(lesson.mediaUrl).toContain("/manus-storage/");
+    expect(lesson.mediaUrl).toContain("/video-media/");
     expect(lesson.mediaUrl).toMatch(/\.mp4$/);
   });
 
