@@ -41,7 +41,7 @@ const menuItems = [
   { icon: Star, label: "Favoritos", path: "/favorites" },
   { icon: BarChart3, label: "Progresso", path: "/progress" },
   { icon: Shield, label: "IA Tutor", path: "/tutor" },
-  { icon: Video, label: "Biblioteca de vídeos", path: "/videos" },
+  { icon: Video, label: "Vídeos", path: "/videos" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";

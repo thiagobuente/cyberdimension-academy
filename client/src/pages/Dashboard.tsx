@@ -416,7 +416,7 @@ export default function Dashboard() {
           <Link href="/progress" onClick={() => setMobileNavOpen(false)} className="dashboard-nav-item dashboard-nav-item-progress"><BarChart3 className="h-4 w-4" /> Progresso</Link>
           <div className="my-4 border-t border-white/8" />
           <Link href="/tutor" onClick={() => setMobileNavOpen(false)} className="dashboard-nav-item dashboard-nav-item-accent"><Brain className="h-4 w-4" /> IA Tutor <span className="ml-auto rounded-full bg-neon-green/10 px-2 py-0.5 text-[0.6rem] font-bold text-neon-green">IA</span></Link>
-          <Link href="/videos" onClick={() => setMobileNavOpen(false)} className="dashboard-nav-item dashboard-nav-item-videos"><Video className="h-4 w-4" /> Biblioteca de vídeos</Link>
+          <Link href="/videos" onClick={() => setMobileNavOpen(false)} className="dashboard-nav-item dashboard-nav-item-videos"><Video className="h-4 w-4" /> Vídeos</Link>
           <Link href="/ctfs" onClick={() => setMobileNavOpen(false)} className="dashboard-nav-item dashboard-nav-item-labs"><Terminal className="h-4 w-4" /> Laboratórios</Link>
           {user.role === "admin" && <Link href="/admin" onClick={() => setMobileNavOpen(false)} className="dashboard-nav-item text-neon-green"><Shield className="h-4 w-4" /> Administração</Link>}
         </nav>
