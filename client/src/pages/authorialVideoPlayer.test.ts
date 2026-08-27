@@ -15,7 +15,16 @@ describe("authorial video player", () => {
   it("exposes modern playback speeds and interactive lesson navigation", () => {
     expect(source).toContain("[0.75, 1, 1.25, 1.5, 2]");
     expect(source).toContain("handleAuthorialVideoSelect(index)");
+    expect(source).toContain("authorialVideoPanelRef.current?.scrollIntoView");
     expect(source).toContain('aria-label="Navegação das videoaulas"');
+  });
+
+  it("recreates the native player for each published lesson and avoids broken media links", () => {
+    expect(source).toContain("key={authorialVideoLessons[selectedAuthorialVideo].id}");
+    expect(source).toContain('preload="auto"');
+    expect(source).toContain("onLoadedMetadata={() => setAuthorialVideoLoadError(false)}");
+    expect(source).toContain("onError={() => setAuthorialVideoLoadError(true)}");
+    expect(source).toContain("Esta aula está em roteiro e ainda não possui arquivo de vídeo publicado.");
   });
 });
 

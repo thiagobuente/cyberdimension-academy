@@ -544,7 +544,7 @@
 - [x] Resultado do teste vocacional persistido no perfil do aluno (acesso pelo dashboard/perfil após login)
 - [x] Migrações 0025/0026 (portfolioItems, careerQuizResults, studyStreaks etc.) e backend completo (routers career, portfolioPublic, filtros admin)
 - [x] 10 testes novos (server/careerAndPublicPortfolio.test.ts), suíte com 230 aprovados, TypeScript limpo
-- [x] Validação E2E na produção: filtros admin com login (conta administrativa configurada no ambiente), fluxo completo do quiz (10 respostas → resultado Blue Team & SOC +50 XP), página pública de portfólio com evidência; senha admin atualizada para o novo valor (mín. 10 chars)
+- [x] Validação E2E na produção: filtros admin com login (thiagobuente@hotmail.com), fluxo completo do quiz (10 respostas → resultado Blue Team & SOC +50 XP), página pública de portfólio com evidência; senha admin atualizada para o novo valor (mín. 10 chars)
 - [x] Limpeza de dados de teste do banco de produção e checkpoint 569af9b7 publicado
 
 # Corrigir categorias vazias na Biblioteca de Vídeos (17/08)
@@ -1425,24 +1425,146 @@
 
 # Publicação no GitHub
 
-- [ ] Verificar estado do Git e conteúdo seguro para publicação pública
-- [ ] Criar o repositório público thiagobuente/cyberdimension-academy
-- [ ] Enviar o código e o histórico preparado para o GitHub
-- [ ] Validar URL, visibilidade, branch principal e arquivos publicados
-- [ ] Entregar confirmação do repositório público ao usuário
+- [x] Verificar estado do Git e conteúdo seguro para publicação pública
+- [x] Criar o repositório público thiagobuente/cyberdimension-academy
+- [x] Enviar o código e o histórico preparado para o GitHub
+- [x] Validar URL, visibilidade, branch principal e arquivos publicados
+- [x] Entregar confirmação do repositório público ao usuário
 
-- [ ] Criar cópia pública limpa sem credenciais, metadados Manus, scripts administrativos sensíveis ou histórico contaminado
+- [x] Criar cópia pública limpa sem credenciais, metadados Manus, scripts administrativos sensíveis ou histórico contaminado
 
 # Requisitos complementares da exportação reproduzível
 
-- [ ] Criar `.env.example` completo somente com nomes de variáveis
-- [ ] Criar `ARCHITECTURE.md` com fluxos frontend, backend, banco, storage e APIs
-- [ ] Criar `DEPLOY.md` com instalação e publicação fora da Manus
-- [ ] Criar `MIGRATION.md` com retirada da Manus por área
-- [ ] Criar `STORAGE.md` com inventário, exportação e restauração de arquivos
-- [ ] Documentar webhooks e cron/jobs, inclusive quando não houver implementação ativa
-- [ ] Revisar scripts do `package.json` e documentar somente comandos existentes ou necessários
-- [ ] Atualizar README profissional com visão geral, setup, testes, build e migração
-- [ ] Revalidar sanitização, reprodutibilidade e conteúdo público antes do push
-- [x] Corrigir a localização única da migration 0026 em `drizzle/0026_public_portfolio_career.sql`
-- [x] Remover o e-mail pessoal exposto do TODO e substituí-lo por uma referência genérica
+- [x] Criar `.env.example` completo somente com nomes de variáveis
+- [x] Criar `ARCHITECTURE.md` com fluxos frontend, backend, banco, storage e APIs
+- [x] Criar `DEPLOY.md` com instalação e publicação fora da Manus
+- [x] Criar `MIGRATION.md` com retirada da Manus por área
+- [x] Criar `STORAGE.md` com inventário, exportação e restauração de arquivos
+- [x] Documentar webhooks e cron/jobs, inclusive quando não houver implementação ativa
+- [x] Revisar scripts do `package.json` e documentar somente comandos existentes ou necessários
+- [x] Atualizar README profissional com visão geral, setup, testes, build e migração
+- [x] Revalidar sanitização, reprodutibilidade e conteúdo público antes do push
+
+# Homologação externa isolada
+
+- [ ] Clonar o código do GitHub para uma cópia de staging sem tocar na versão Manus
+- [ ] Confirmar e documentar o que será substituído antes de cada alteração estrutural
+- [ ] Configurar Node gerenciado em URL de homologação
+- [ ] Provisionar MySQL externo separado e aplicar schema/migrations compatíveis
+- [ ] Configurar storage S3/R2 separado e migrar assets autorizados
+- [ ] Substituir autenticação/OAuth Manus por solução externa
+- [ ] Substituir APIs Manus e revisar URLs/variáveis de ambiente
+- [ ] Testar funcionalidades completas na cópia de homologação
+- [ ] Validar que domínio, DNS, banco e versão Manus não foram alterados
+
+# Homologação Render + Aiven + Cloudflare R2
+
+- [ ] Apresentar arquivos/adaptadores e variáveis de ambiente antes de alterações estruturais
+- [ ] Preparar cópia externa com adaptador MySQL compatível para Aiven
+- [ ] Preparar adaptador S3-compatible para Cloudflare R2
+- [ ] Substituir autenticação Manus na cópia externa sem copiar tokens de produção
+- [ ] Configurar Render apenas com secrets externos e URL de homologação
+- [ ] Aplicar migrations em banco Aiven separado
+- [ ] Testar frontend, backend, autenticação, storage e funcionalidades na homologação
+- [ ] Confirmar que Manus, domínio oficial e DNS permaneceram inalterados
+
+# Homologação confirmada — Render + Aiven + R2
+
+- [ ] Criar backup/versionamento da cópia externa antes de alterações
+- [ ] Reconciliar migration 0026 somente na cópia externa e validar schema MySQL
+- [ ] Apresentar diff final e matriz de dependências antes do deploy
+- [ ] Implementar adaptadores Render/Aiven/R2 e autenticação própria somente no staging
+- [ ] Configurar secrets externos sem publicar valores no GitHub
+- [ ] Inicializar Aiven com banco exclusivo de homologação e sem dados de produção
+- [ ] Validar funcionalidades e mídia antes de qualquer decisão de domínio/DNS
+- [ ] Manter produção Manus intacta e documentar rollback da homologação
+
+# Adaptadores externos — staging sem deploy
+
+- [ ] Criar snapshot adicional da cópia staging antes dos adaptadores
+- [ ] Reconciliar somente no staging a migration 0026 e validar as 35 migrations
+- [ ] Implementar adaptador S3-compatible local para Cloudflare R2 sem credenciais
+- [ ] Implementar autenticação própria JWT/scrypt e manter IDs internos no staging
+- [ ] Configurar contrato Render/Resend/NVIDIA sem valores secretos
+- [ ] Isolar/remover referências Manus do caminho externo e documentar exceções
+- [ ] Executar check, testes, validação das migrations e builds frontend/backend
+- [ ] Gerar relatório final de diff e pendências sem fazer deploy ou conexão externa
+
+# Especificação pré-deploy — Render + Aiven + Cloudflare R2
+
+- [ ] Consolidar arquitetura de staging em um único serviço Node no Render
+- [ ] Documentar build, start, porta e variáveis de ambiente do Render
+- [ ] Documentar Aiven MySQL vazio, TLS e aplicação das 35 migrations
+- [ ] Documentar bucket R2 de staging, endpoint, configuração S3, CORS, Range/seek e prefixos
+- [ ] Documentar comandos de instalação, deploy, migrations e smoke tests
+- [ ] Documentar riscos e limitações antes da autorização de deploy
+- [ ] Entregar a especificação para confirmação sem conectar ou publicar serviços externos
+
+# Configuração real dos provedores de homologação
+
+- [ ] Verificar acesso seguro ao Render, Aiven e Cloudflare
+- [ ] Criar/confirmar Web Service Render de staging conectado ao GitHub
+- [ ] Criar/confirmar banco Aiven MySQL vazio exclusivo de staging
+- [ ] Criar/confirmar bucket R2 vazio exclusivo de staging
+- [ ] Inserir secrets somente nos painéis dos provedores
+- [ ] Aplicar migrations no Aiven sem dados de produção
+- [ ] Iniciar e validar a URL onrender.com de homologação
+
+# Homologação simplificada — Railway + MySQL
+
+- [ ] Revisar a cópia staging e definir o menor conjunto de serviços Railway
+- [ ] Documentar variáveis de ambiente, build/start commands e migrations Railway
+- [ ] Documentar alterações necessárias somente no staging e dependências Manus restantes
+- [ ] Entregar a especificação Railway para confirmação antes do deploy
+
+# Infraestrutura Railway preparada
+
+- [ ] Verificar autenticação da conta Railway
+- [ ] Criar novo projeto Railway isolado
+- [ ] Adicionar MySQL Railway vazio com volume persistente
+- [ ] Adicionar serviço Web conectado ao GitHub sem publicar o deploy final
+- [ ] Configurar build, start, PORT e referência DATABASE_URL
+- [ ] Criar secrets exclusivos de staging sem valores no GitHub
+- [ ] Gerar apenas domínio automático Railway
+- [ ] Validar status dos recursos e migrations pendentes antes do deploy
+
+# Automação segura de implantação externa
+
+- [ ] Pesquisar Railway CLI, API, tokens e permissões oficiais
+- [ ] Mapear operações possíveis: projeto, MySQL, serviço, variáveis, migrations e deploy
+- [ ] Comparar alternativas externas automatizáveis sem credenciais pessoais
+- [ ] Documentar credencial mínima, escopo e local de configuração
+- [ ] Entregar recomendação antes de executar qualquer infraestrutura
+
+# Bootstrap automatizado em workspace Railway dedicado
+
+- [ ] Definir mecanismo seguro para injetar temporariamente o Workspace Token sem gravá-lo no projeto
+- [ ] Confirmar que o workspace Railway é dedicado e vazio para staging
+- [ ] Criar projeto, ambiente, MySQL, volume e serviço Web via automação autorizada
+- [ ] Configurar secrets da aplicação somente no Railway
+- [ ] Aplicar 35 migrations e fazer o primeiro deploy
+- [ ] Executar smoke tests sem dados de produção
+- [ ] Criar Project Token de staging, substituir o Workspace Token e revogá-lo
+- [ ] Entregar URL e relatório final da homologação
+
+# Bootstrap local Railway
+
+- [x] Validar operações oficiais atuais do Railway CLI/API
+- [x] Projetar script idempotente sem token embutido ou logs sensíveis
+- [x] Gerar script de bootstrap para projeto, ambiente, MySQL, volume, serviço GitHub, variáveis, deploy e smoke tests
+- [x] Gerar README_BOOTSTRAP.md com pré-requisitos, execução, revogação e Project Token
+- [x] Validar sintaxe, segurança, comandos e limites do script
+- [x] Entregar os arquivos sem executar o bootstrap local
+- [x] Transformar a aplicação em PWA instalável para Android e iOS, com manifest, ícones, service worker e validação mobile
+- [x] Adicionar botão/banner de instalação do PWA na interface principal, com estados Android/Chrome, iOS e app já instalado
+- [x] Implementar a Academia de Inteligência Artificial do zero ao avançado com 10 módulos, aulas, quizzes, desafios, labs, projetos, Prompt Lab, progresso, XP, badges e certificado
+- [x] Criar catálogo audiovisual autoral com 10 aulas em vídeo por curso e adicionar a aba Vídeos na barra lateral
+- [x] Auditar e corrigir o fluxo de reprodução dos vídeos autorais (rota, asset, player, service worker e mobile)
+- [ ] Migrar o vídeo-piloto para storage S3/R2 externo sem reutilizar a URL Manus
+- [ ] Persistir progresso e conclusão da videoaula autoral
+- [ ] Adicionar velocidade de reprodução e legendas ao player autoral
+- [x] Corrigir vídeo-piloto exibido como 0:00 sem imagem, sem depender de R2/S3 ou APIs externas
+- [x] Modernizar controles de velocidade do player autoral
+- [x] Salvar progresso local do vídeo e permitir marcar a aula como concluída
+- [x] Adicionar barra lateral interativa com as aulas disponíveis do curso
+- [x] Auditar e corrigir o acervo de videoaulas: eliminar 0:00, remover links Not found e separar mídia publicada de roteiros
