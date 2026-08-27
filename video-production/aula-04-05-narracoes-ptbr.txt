@@ -1,0 +1,49 @@
+AULA 04 — LEITURA DE EVIDÊNCIAS: IA PARA PRODUTIVIDADE
+
+Bem-vindo à Aula 04 da Academia de Inteligência Artificial. Hoje vamos aprender a usar IA para ler evidências e aumentar a produtividade sem perder contexto, privacidade ou revisão humana.
+
+Evidência é um registro que ajuda a entender o que aconteceu: um relatório, uma tabela, um conjunto de alertas, uma política, um log anonimizado ou uma documentação técnica. A inteligência artificial pode ajudar a organizar esse material, mas não deve apagar nuances nem decidir sozinha o significado de um evento.
+
+Comece definindo a finalidade. Você quer resumir um documento, extrair campos, comparar versões, encontrar contradições ou preparar perguntas para uma revisão? O objetivo define o formato e reduz a tentação de pedir uma análise genérica.
+
+Antes de enviar qualquer arquivo, classifique a informação. Remova credenciais, dados pessoais, chaves, endereços desnecessários e conteúdo confidencial que não seja essencial. Use uma cópia de trabalho, registre quem autorizou o processamento e confirme onde o documento será armazenado.
+
+Uma técnica útil é pedir primeiro uma descrição da estrutura, não uma conclusão. Solicite títulos, datas, autores, lacunas e relações observáveis. Depois peça uma síntese separando fatos encontrados, interpretações possíveis e perguntas em aberto. Essa separação facilita a revisão.
+
+Para um conjunto de logs, a ferramenta pode agrupar eventos por horário, usuário ou tipo. Mas uma sequência de eventos não prova, sozinha, intenção maliciosa. Verifique fuso horário, relógio do sistema, retenção, duplicidades e origem dos registros. Compare a saída com as fontes originais.
+
+Para documentos de políticas, a IA pode localizar requisitos repetidos, mudanças entre versões e trechos que merecem atenção. A decisão de conformidade continua dependendo do escopo, da norma aplicável e da avaliação responsável. Não transforme uma sugestão em parecer definitivo.
+
+Para ganhar produtividade, peça saídas pequenas e verificáveis: uma tabela de campos extraídos, uma lista de divergências com página de referência e um conjunto de perguntas para o especialista. Evite pedir que a ferramenta invente dados ausentes. Quando faltar informação, o resultado deve dizer claramente que o campo não foi encontrado.
+
+Um fluxo responsável é: preparar, classificar, extrair, conferir, interpretar e registrar. Mantenha o arquivo original preservado. Guarde o prompt e a versão da ferramenta quando isso for permitido. Registre correções feitas por uma pessoa para que o resultado possa ser auditado.
+
+A IA pode ajudar a escrever uma mensagem, transformar uma reunião em tarefas e organizar um plano de estudo. Mesmo nessas tarefas, revise nomes, prazos, compromissos e termos técnicos. Produtividade não é apenas velocidade; é reduzir retrabalho sem aumentar risco.
+
+Para o desafio, use um documento fictício de laboratório. Peça a extração de cinco fatos, três lacunas e três perguntas de revisão. Depois compare cada item com o documento original e marque o que foi confirmado, corrigido ou rejeitado.
+
+Resumo: use IA para organizar evidências, não para substituir julgamento; proteja dados antes do processamento; separe fatos de interpretações; cite a origem dos achados; e registre a revisão humana. Na próxima aula, vamos analisar como a IA pode apoiar decisões de programação com segurança.
+
+AULA 05 — DECISÃO PROFISSIONAL: IA PARA PROGRAMAÇÃO
+
+Bem-vindo à Aula 05. Hoje vamos estudar como usar ferramentas de inteligência artificial para apoiar programação sem abrir mão de testes, segurança e entendimento do código.
+
+A IA pode explicar uma função, sugerir uma implementação, converter uma estrutura, criar testes, revisar uma mensagem de erro ou ajudar a documentar um projeto. Ela não conhece automaticamente o contexto completo do sistema, as regras de negócio, os requisitos de desempenho ou as ameaças específicas do ambiente.
+
+Comece com uma tarefa pequena. Informe a linguagem, a versão, a entrada esperada, a saída desejada, as restrições e exemplos. Peça uma explicação antes do código quando o objetivo for aprender. Se a ferramenta sugerir uma alteração, solicite também testes e riscos conhecidos.
+
+Nunca envie segredos para um assistente. Remova tokens, senhas, chaves privadas, dados de clientes e trechos proprietários que não sejam necessários. Em um repositório, use dados sintéticos e revise a política de retenção da ferramenta.
+
+Uma resposta de programação precisa passar por várias verificações. Primeiro, leia o código e veja se ele realmente resolve o problema. Depois execute testes unitários e casos de borda. Use análise estática, verificação de dependências e revisão por outra pessoa quando a mudança for relevante.
+
+A IA pode inventar bibliotecas, métodos, parâmetros e comportamentos de uma API. Confirme cada referência na documentação oficial e fixe versões quando possível. Não copie comandos perigosos para um ambiente de produção. Prefira um laboratório isolado e um plano de reversão.
+
+Para segurança, peça explicitamente validação de entrada, tratamento de erros, menor privilégio, proteção contra exposição de dados e logs sem informações sensíveis. Uma revisão automatizada ajuda a encontrar perguntas, mas não garante que todas as vulnerabilidades foram identificadas.
+
+Também é importante avaliar dependências. Uma sugestão pode introduzir uma biblioteca sem manutenção ou uma versão vulnerável. Confira licença, origem, versão, manutenção e impacto. Registre a decisão de aceitar, modificar ou rejeitar a sugestão.
+
+Use a IA como parceira de raciocínio, não como autoridade. Uma boa prática é pedir duas alternativas, comparar trade-offs e escolher com base nos requisitos do projeto. Se a ferramenta não tiver informação suficiente, peça que declare as premissas.
+
+No desafio, escolha uma função simples de laboratório, como validar um campo ou classificar eventos. Peça uma implementação, testes e uma análise de riscos. Execute os testes, leia cada linha e registre pelo menos uma melhoria feita por você.
+
+Resumo: tarefas pequenas, contexto claro, nenhum segredo, testes reais, documentação oficial e revisão humana. A produtividade aumenta quando você entende o código que aceita. Na próxima aula, vamos examinar erros comuns no uso de IA aplicada à cibersegurança. Até lá.

@@ -54,6 +54,30 @@ const publishedLessonDetails: Record<number, { duration: string; chapters: reado
       { time: "04:41", title: "Desafio e resumo", summary: "Transformação de uma solicitação vaga em um pedido profissional." },
     ],
   },
+  4: {
+    duration: "4 min 05 s",
+    chapters: [
+      { time: "00:00", title: "Introdução", summary: "Leitura de evidências com contexto, privacidade e revisão humana." },
+      { time: "00:35", title: "Classificação das evidências", summary: "Relatórios, alertas, políticas e logs como registros observáveis." },
+      { time: "01:10", title: "Privacidade antes do processamento", summary: "Remoção de credenciais, dados pessoais e conteúdo desnecessário." },
+      { time: "01:45", title: "Fatos e interpretações", summary: "Separação entre o que foi encontrado e o que ainda precisa ser avaliado." },
+      { time: "02:20", title: "Logs e políticas", summary: "Limites da inferência e importância de conferir as fontes originais." },
+      { time: "02:55", title: "Produtividade verificável", summary: "Saídas pequenas, referências e registro da revisão humana." },
+      { time: "03:30", title: "Desafio e resumo", summary: "Extração de fatos, lacunas e perguntas a partir de documento fictício." },
+    ],
+  },
+  5: {
+    duration: "3 min 48 s",
+    chapters: [
+      { time: "00:00", title: "Introdução", summary: "Programação assistida por IA sem abrir mão de testes e segurança." },
+      { time: "00:32", title: "Tarefa pequena e contexto", summary: "Linguagem, versão, entradas, saídas, restrições e exemplos." },
+      { time: "01:05", title: "Segredos e privacidade", summary: "Proteção de tokens, senhas, chaves, dados de clientes e código proprietário." },
+      { time: "01:38", title: "Testes e casos de borda", summary: "Leitura do código, testes unitários, análise estática e revisão." },
+      { time: "02:11", title: "APIs e dependências", summary: "Verificação de documentação, versões, licença e manutenção." },
+      { time: "02:44", title: "Segurança e revisão humana", summary: "Validação de entrada, menor privilégio, logs seguros e limites da automação." },
+      { time: "03:17", title: "Desafio e resumo", summary: "Implementação controlada de uma função com testes e análise de riscos." },
+    ],
+  },
 };
 
 export function getAuthorialVideoLessons(course: StarterCourse): AuthorialVideoLesson[] {
@@ -78,7 +102,7 @@ export function getAuthorialVideoLessons(course: StarterCourse): AuthorialVideoL
       focus,
       chapters,
       transcript: chapters.map((chapter) => ({ time: chapter.time, text: `${chapter.title}: ${chapter.summary}` })),
-      status: course.slug === "ia-do-zero-ao-avancado" && index <= 2 ? "publicado" : "roteiro_autoral",
+      status: course.slug === "ia-do-zero-ao-avancado" && index <= 4 ? "publicado" : "roteiro_autoral",
       mediaUrl:
         course.slug !== "ia-do-zero-ao-avancado"
           ? undefined
@@ -88,7 +112,11 @@ export function getAuthorialVideoLessons(course: StarterCourse): AuthorialVideoL
               ? "/video-media/cyberdimension-aula-02_18823cd3.mp4"
               : index === 2
                 ? "/video-media/cyberdimension-aula-03_fa9873d7.mp4"
-                : undefined,
+                : index === 3
+                  ? "/video-media/cyberdimension-aula-04_ca0f8d58.mp4"
+                  : index === 4
+                    ? "/video-media/cyberdimension-aula-05_28f3aaa3.mp4"
+                    : undefined,
     };
   });
 }
