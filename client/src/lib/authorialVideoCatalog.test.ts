@@ -8,14 +8,16 @@ describe("authorial video catalog", () => {
     expect(functionalCourses.length).toBeGreaterThan(4);
     expect(allLessons).toHaveLength(functionalCourses.length * 10);
     expect(allLessons.every((lesson) => lesson.status === "roteiro_autoral" || lesson.status === "publicado")).toBe(true);
-    expect(allLessons.every((lesson) => lesson.chapters.length === 3 && lesson.transcript.length === 3)).toBe(true);
+    expect(allLessons.every((lesson) => lesson.chapters.length >= 3 && lesson.transcript.length === lesson.chapters.length)).toBe(true);
   });
 
-  it("publishes the AI academy pilot with a playable MP4 source", () => {
-    const lesson = getAuthorialVideoLessons(functionalCourses.find((course) => course.slug === "ia-do-zero-ao-avancado")!)[0];
-    expect(lesson.status).toBe("publicado");
-    expect(lesson.mediaUrl).toContain("/video-media/");
-    expect(lesson.mediaUrl).toMatch(/\.mp4$/);
+  it("publishes the AI academy lessons with real playable MP4 sources", () => {
+    const lessons = getAuthorialVideoLessons(functionalCourses.find((course) => course.slug === "ia-do-zero-ao-avancado")!);
+    expect(lessons.slice(0, 3).every((lesson) => lesson.status === "publicado")).toBe(true);
+    expect(lessons.slice(0, 3).every((lesson) => lesson.mediaUrl?.startsWith("/video-media/") && lesson.mediaUrl.endsWith(".mp4"))).toBe(true);
+    expect(lessons[1].duration).toBe("4 min 53 s");
+    expect(lessons[2].duration).toBe("5 min 27 s");
+    expect(lessons.slice(3).every((lesson) => lesson.status === "roteiro_autoral" && !lesson.mediaUrl)).toBe(true);
   });
 
   it("keeps lesson identifiers unique and ordered inside each course", () => {

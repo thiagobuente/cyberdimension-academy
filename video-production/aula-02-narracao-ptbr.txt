@@ -1,0 +1,25 @@
+Bem-vindo à Aula 02 da Academia de Inteligência Artificial da CyberDimension Academy. Hoje vamos estudar um conceito essencial: como escolher e usar ferramentas de inteligência artificial com responsabilidade.
+
+Antes de comparar nomes de produtos, precisamos separar duas ideias. Um modelo é o sistema treinado para interpretar entradas e produzir saídas. Uma ferramenta é a aplicação que coloca um ou mais modelos dentro de uma experiência: ela pode oferecer conversa, pesquisa, criação de imagens, áudio, vídeo, programação, automação ou integração com documentos. O mesmo modelo pode aparecer em ferramentas diferentes, com limites, interfaces e fontes de dados diferentes.
+
+Uma ferramenta de conversa é útil para explicar conceitos, organizar ideias, revisar um texto e criar um primeiro rascunho. Entre as opções conhecidas estão ChatGPT, Claude, Gemini, Copilot e Perplexity. Elas não devem ser tratadas como autoridades automáticas. Cada resposta é uma hipótese que precisa ser conferida, principalmente quando envolve segurança, legislação, configuração técnica ou decisões importantes.
+
+Ferramentas com pesquisa na web podem ajudar a localizar documentação e notícias, mas a presença de uma citação não garante que a interpretação esteja correta. Abra as fontes, verifique a data, confira se o trecho realmente sustenta a afirmação e prefira documentação oficial, normas e páginas de referência. Para uma pergunta técnica, peça também as premissas, os limites e os passos de validação.
+
+Há ferramentas voltadas à geração de imagens. Elas podem criar diagramas conceituais, ilustrações de uma campanha de conscientização e recursos visuais para uma apresentação. Antes de usar uma imagem, verifique direitos de uso, privacidade e a possibilidade de a imagem induzir alguém ao erro. Uma ilustração não substitui um diagrama técnico quando a precisão da arquitetura é essencial.
+
+Na geração de áudio e vídeo, a inteligência artificial pode produzir narração, trilhas, legendas e materiais de apoio. A qualidade depende do roteiro, da revisão e da sincronização. Uma voz natural não transforma uma explicação incorreta em uma aula confiável. Revise pronúncia de termos técnicos, remova informações pessoais e deixe claro quando um material foi gerado ou editado com assistência automatizada.
+
+Para programação, ferramentas de assistência podem sugerir código, explicar erros, escrever testes e transformar uma ideia em um protótipo. Elas também podem sugerir bibliotecas desatualizadas, introduzir vulnerabilidades ou inventar funções que não existem. Execute o código em ambiente controlado, leia cada mudança, use análise estática, escreva testes e nunca cole tokens, senhas ou dados de clientes no prompt.
+
+A escolha da ferramenta deve começar pelo objetivo. Para estudar um conceito, uma ferramenta de conversa pode ser suficiente. Para pesquisar uma informação recente, prefira uma solução com fontes verificáveis. Para trabalhar com documentos, confirme onde os arquivos serão processados e quem terá acesso. Para programação, avalie suporte à linguagem, integração com o repositório e controles de privacidade. Para imagens, áudio ou vídeo, confira licença, formato e possibilidade de revisão humana.
+
+Também precisamos reconhecer limitações. Modelos podem errar fatos, perder contexto, reproduzir vieses, responder com excesso de confiança e criar referências inexistentes. Eles podem interpretar uma instrução de forma ambígua e não entendem responsabilidade como uma pessoa entende. Em cibersegurança, uma sugestão aparentemente pequena pode abrir uma exposição séria.
+
+Use um processo simples de verificação. Primeiro, descreva o objetivo e o contexto. Depois, peça uma resposta estruturada, com premissas e riscos. Em seguida, compare a resposta com documentação primária e teste a parte técnica em um ambiente isolado. Por fim, registre a decisão, a fonte consultada e o que ainda precisa de revisão humana.
+
+Privacidade também faz parte da escolha. Não envie dados pessoais, credenciais, chaves privadas, logs não anonimizados ou informações confidenciais sem autorização e sem entender a política do serviço. Prefira exemplos sintéticos, remova identificadores e estabeleça o menor nível de acesso necessário. Se uma ferramenta não explica como usa os dados, trate essa incerteza como um risco.
+
+Para o desafio prático, escolha uma tarefa de estudo em cibersegurança e compare duas ferramentas. Registre o objetivo, o prompt, as respostas, as fontes usadas para conferir os fatos, os erros encontrados e a decisão final. O resultado não é escolher uma vencedora. É aprender a selecionar a ferramenta adequada para cada contexto, mantendo revisão, privacidade e responsabilidade.
+
+Para resumir: modelo e ferramenta não são sinônimos; diferentes ferramentas servem a objetivos diferentes; geração de texto, imagem, áudio, vídeo e código exige revisão; e uma resposta de inteligência artificial só se torna útil quando pode ser verificada. Na próxima aula, vamos transformar instruções vagas em prompts profissionais, seguros e fáceis de avaliar. Até lá.

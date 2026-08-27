@@ -1,0 +1,27 @@
+Bem-vindo à Aula 03 da Academia de Inteligência Artificial. Nesta aula vamos aprender engenharia de prompts: como transformar uma instrução vaga em uma solicitação clara, segura e fácil de avaliar.
+
+Um prompt é a instrução que orienta uma ferramenta de inteligência artificial. Ele pode conter contexto, objetivo, papel, restrições, dados de entrada e formato de resposta. Um bom prompt não tenta controlar cada palavra. Ele fornece informação suficiente para reduzir ambiguidades e define como a resposta será avaliada.
+
+Comece pelo contexto. Explique onde a tarefa acontece, quem é o público e quais informações já estão disponíveis. Depois declare o objetivo com um verbo claro: resumir, comparar, classificar, explicar, revisar ou propor. Quando a tarefa for técnica, diga também qual é o ambiente, a versão e o nível de conhecimento esperado.
+
+Definir um papel pode ajudar a orientar a perspectiva, mas não transforma o modelo em uma autoridade real. Em vez de pedir uma resposta genérica, você pode pedir uma explicação de um instrutor de segurança para uma pessoa iniciante. O papel deve melhorar a clareza, nunca substituir a verificação humana.
+
+Inclua restrições relevantes. Informe o idioma, o tamanho aproximado, o que deve ser evitado, quais fontes são preferidas e quais dados não podem aparecer. Para cibersegurança, deixe explícito quando o exemplo deve ser realizado apenas em um laboratório autorizado e seguro. Não inclua credenciais ou informações pessoais no prompt.
+
+Defina o formato de saída. Uma tabela pode ajudar em comparações. Uma lista numerada pode organizar procedimentos. Um objeto estruturado pode facilitar a integração com um programa. Se você precisa de uma resposta verificável, peça campos como premissas, riscos, fontes e perguntas em aberto.
+
+Observe a evolução de três exemplos. Um prompt ruim diz: explique segurança de rede. Ele não informa o objetivo, o público, o escopo ou o formato. A resposta pode ser ampla demais ou ignorar o que o estudante realmente precisa.
+
+Um prompt melhorado diz: explique os princípios de segurança de rede para uma pessoa iniciante, usando exemplos simples e terminando com cinco perguntas de revisão. Agora existe um público e uma estrutura, mas ainda falta contexto sobre o ambiente e sobre o que deve ser considerado essencial.
+
+Um prompt profissional pode dizer: você é um instrutor de fundamentos de redes. Explique, em português brasileiro, como segmentação, firewall e monitoramento reduzem riscos em uma pequena empresa. Use três seções, apresente um exemplo seguro sem comandos destrutivos, destaque duas limitações e finalize com cinco perguntas de revisão e o gabarito separado. Se faltar informação, declare a premissa em vez de inventar.
+
+Esse terceiro prompt é melhor porque pode ser avaliado. Sabemos quem deve entender o conteúdo, quais conceitos precisam aparecer, quais riscos devem ser evitados e como a resposta será organizada. Ainda assim, ele não elimina erros. Leia o resultado, compare com documentação e refine a instrução quando necessário.
+
+O refinamento é um ciclo. Primeiro escreva a versão inicial. Depois observe o que ficou vago, incorreto ou fora do formato. Acrescente apenas as informações que resolvem o problema. Peça que a ferramenta marque incertezas e não invente referências. Em seguida revise novamente. Prompts complexos não precisam ser enormes; precisam ser precisos.
+
+Um padrão prático é: contexto, objetivo, papel, restrições, formato e critério de qualidade. Para perguntas de segurança, adicione autorização, escopo e ambiente controlado. Para dados sensíveis, use exemplos anonimizados. Para código, peça explicação, testes e revisão de segurança.
+
+Desafio final: transforme o prompt ruim “analise este sistema” em uma solicitação profissional. Inclua o contexto de um laboratório autorizado, o objetivo da análise, os limites da atividade, o formato do relatório, os riscos que devem ser destacados e uma instrução para declarar incertezas. Depois compare sua versão com o padrão da aula.
+
+Resumo: contexto reduz ambiguidades; objetivo direciona a resposta; papel orienta a perspectiva; restrições protegem o escopo; formato facilita a avaliação; e refinamento melhora a qualidade. Um prompt profissional não é uma fórmula mágica. É uma especificação clara que ajuda a ferramenta e o estudante a trabalhar com responsabilidade. Até a próxima aula.

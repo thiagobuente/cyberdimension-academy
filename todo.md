@@ -1570,3 +1570,5 @@
 - [x] Auditar e corrigir o acervo de videoaulas: eliminar 0:00, remover links Not found e separar mídia publicada de roteiros
 - [x] Corrigir player sem duração/play na Aula 01 e revisar a disponibilidade real das demais aulas autorais
 - [x] Reproduzir e corrigir a falha persistente do player no ambiente publicado, verificando endpoint, logs e resposta efetiva do navegador
+- [x] Ler e comparar os anexos recebidos com o player atual para diagnosticar a falha concreta
+- [ ] Produzir e validar videoaulas reais para as Aulas 02–10 da Academia de IA, preservando roteiros, capítulos, transcrições, quizzes e progresso (Lote 1 concluído; Aulas 04–10 pendentes)
