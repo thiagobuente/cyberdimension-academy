@@ -21,4 +21,11 @@ describe("PWA contract", () => {
     expect(existsSync(resolve(publicDir, "icons/icon-192.png"))).toBe(true);
     expect(existsSync(resolve(publicDir, "icons/icon-512.png"))).toBe(true);
   });
+
+  it("does not intercept media requests with the app-shell fallback", () => {
+    const serviceWorker = readFileSync(resolve(publicDir, "sw.js"), "utf8");
+    expect(serviceWorker).toContain('request.destination === "video"');
+    expect(serviceWorker).toContain('request.destination === "audio"');
+    expect(serviceWorker).toContain('url.pathname.startsWith("/manus-storage/")');
+  });
 });
